@@ -1,0 +1,16 @@
+{
+  "name": "ds",
+  "version": "1.0.5",
+  "description": "Data Security Project",
+  "main": "app.js",
+  "preferGlobal": true,
+  "bin": "./app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Arber Hyseni Artan Vrajolli Arianit Halimi",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^4.1.1"
+  }
+}
