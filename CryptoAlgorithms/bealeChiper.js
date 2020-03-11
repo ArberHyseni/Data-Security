@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('fs'); //The fs module provides an API for interacting with the file system in a manner closely modeled around standard POSIX functions.
 
 module.exports = {
   bencrypt: (file,plaintext) =>{

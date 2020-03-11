@@ -1,6 +1,6 @@
 {
   "name": "ds",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Data Security Project",
   "main": "app.js",
   "preferGlobal": true,

@@ -6,14 +6,14 @@ const {bencrypt,bdecrypt} = require('./CryptoAlgorithms/bealeChiper');
 const {tencrypt,tdecrypt} = require('./CryptoAlgorithms/tap-codeChiper');
 
 program
-  .version('1.0.5')
+  .version('1.0.6')
   .description('Simple Encryption Algorithms')
 
 program
   .command('caesar <command> <key> <text>')
   .description('Encrypts or Decrypts given text with Caesar chiper\nOptions:\nencrypt - Encrypt Plaintext with Caesar method\ndecrypt - Decrypt Chipertext with Caesar method\nkey - number of letters to shift')
 
-if(process.argv.slice(5).length != 0){
+if(process.argv.slice(5).length != 0){ //check if 5th argument exists to run the below code. References are on references.txt
   program
     .command('caesar <command> <key> <text>')
     .description('Encrypts or Decrypts given text with Caesar chiper\nCommands:\nencrypt - Encrypt Plaintext with Caesar method\ndecrypt - Decrypt Chipertext with Caesar method')
@@ -65,4 +65,5 @@ program
     }
   })
 
-program.parse(process.argv);
+program.parse(process.argv); //parsing the array of line arguments
+
