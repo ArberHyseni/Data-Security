@@ -40,40 +40,42 @@ module.exports = {
   },
   tdecrypt: (plaintext) =>{
     plaintext = plaintext.trim();
-    var decrypted_text = '';
-    var p = plaintext.replace(/\s\s+/g, " ");
-    var parray = p.split(' ');
-    var counterdots = 0;
-    for(var cload=0;cload<parray.length;cload++){
-        if(parray[cload].match(/\./)){
-           counterdots++;
-        }
-    }
-    //check for format of dots
-    if(counterdots%2 != 0){
-      console.log("Missing pair of dot/s!");
-      process.exit();
-    }
-	
+    var decrypted_text ="";
+    if(plaintext.match(/[A-Za-z]/)){
+      console.log('Invalid syntax');
+       process.exit();
+   }
+    var dotspliter = plaintext.split(/\s+/);
+   // console.log(dotspliter);
+
+    var spacespliter = plaintext.split(/\.+/);
+   // console.log(spacespliter);
     var matrix = [['A','B','C','D','E'],['F','G','H','I','J']
-                  ,['L','M','N','O','P'],['Q','R','S','T','U']
-                  ,['V','W','X','Y','Z']];
-				 
-    for(var i=0;i<parray.length;i++){
-      if(parray[i]==='|'){
-        decrypted_text += ' ';
-        parray.splice(i,1);
+    ,['L','M','N','O','P'],['Q','R','S','T','U']
+    ,['V','W','X','Y','Z']];
+
+    if(dotspliter.length%2 != 0){
+       console.log("Missing pair of dot/s!");
+        process.exit();
+    }
+    for(var i=0;i<dotspliter.length;i=i+2){
+      var space = "";
+      if(spacespliter[i].match(/\s\s+/)){
+      var space = " ";
       }
-      if(parray[i].length > 5){
+
+      var t1 = dotspliter[i].length;
+      var t2 = dotspliter[i+1].length;
+      if(t1>5 || t2>5){
         console.log('Invalid syntax');
         process.exit();
       }
-      var t1 = parray[i].length;
-      var t2 = parray[i+1].length;
-      decrypted_text += matrix[t1-1][t2-1];
-      i++;
+      decrypted_text +=space+matrix[t1-1][t2-1];
+
     }
-    decrypted_text = decrypted_text.toLowerCase();
+
+   // console.log("dotslength:"+dotspliter.length+" spacelegth:"+spacespliter.length);
+
     console.log(decrypted_text);
   }
 }
