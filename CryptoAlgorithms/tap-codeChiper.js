@@ -73,7 +73,7 @@ module.exports = {
       decrypted_text +=space+matrix[t1-1][t2-1];
 
     }
-
+    decrypted_text = decrypted_text.toLowerCase();
    // console.log("dotslength:"+dotspliter.length+" spacelegth:"+spacespliter.length);
 
     console.log(decrypted_text);
