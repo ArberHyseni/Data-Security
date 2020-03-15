@@ -1,7 +1,7 @@
 # DS_2020-18
 
-DS_2020-18 eshte repository i projektit te gruput 18 per teknikat klasike te enkriptimit.
-Ne kete repository gjenden tre lloje te enkriptimit:
+DS_2020-18 eshte repository i projektit te grupit 18 per teknikat klasike te enkriptimit.
+Ne kete repository gjinden tre lloje te enkriptimit:
 1.Caesar Cipher
 2.Tap-Code Cipher
 3.Beale Cipher
@@ -36,7 +36,7 @@ dhe me kete perfundon instalimi i programit.
 
 ## Perdorimi
 
-Per ta perdorur aplikacionin, thjeshte duhet te hapni terminalin ne secilindo lokacion dhe te shkruani komandat:
+Per ta perdorur aplikacionin, thjeshte duhet te hapni terminalin ne cilindo lokacion dhe te shkruani komandat:
 1.Komanda caesar per enkriptim/dekriptim apo edhe brute-force te nje teksti
 1.1 Komanda per enkriptim me metoden e Cezarit:
 ```bash
@@ -84,7 +84,7 @@ ds --help
 ## Kontribuesit
 
 Krijues te ketij aplikacioni jane: Arianit Halimi,Artan Vrajolli dhe Arber Hyseni.
-Pull requests jane te mirepritura. Per permirsime te medha, ju lutemi qe fillimisht te hapni nje diskutim per ndryshimin.
+Pull requests jane te mirepritura. Per permiresime, ju lutemi qe fillimisht te hapni nje diskutim per ato ndryshime.
 Nese ka ndonje verzion te ri, ju lutemi te qendroni te perditesuar.
 
 ## Licenca
