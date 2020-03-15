@@ -2,8 +2,8 @@
 
 DS_2020-18 eshte repository i projektit te grupit 18 per teknikat klasike te enkriptimit.
 Ne kete repository gjinden tre lloje te enkriptimit:
-1. Caesar Cipher\
-2. Tap-Code Cipher\
+1. Caesar Cipher
+2. Tap-Code Cipher
 3. Beale Cipher
 
 ## Instalimi
