@@ -11,12 +11,12 @@ program
 
 program
   .command('caesar <command> <key> <text>')
-  .description('Encrypts or Decrypts given text with Caesar chiper\nOptions:\nencrypt - Encrypt Plaintext with Caesar method\ndecrypt - Decrypt Chipertext with Caesar method\nkey - number of letters to shift')
+  .description('Encrypts or Decrypts given text with Caesar chiper\nOptions:\nencrypt - Encrypt Plaintext with Caesar method\ndecrypt - Decrypt Chipertext with Caesar method\nkey - number of letters to shift\n')
 
 if(process.argv.slice(5).length != 0){ //check if 5th argument exists to run the below code. References are on references.txt
   program
     .command('caesar <command> <key> <text>')
-    .description('Encrypts or Decrypts given text with Caesar chiper\nCommands:\nencrypt - Encrypt Plaintext with Caesar method\ndecrypt - Decrypt Chipertext with Caesar method')
+    .description('Encrypts or Decrypts given text with Caesar chiper\nCommands:\nencrypt - Encrypt Plaintext with Caesar method\ndecrypt - Decrypt Chipertext with Caesar method\n')
     .action((command,key,text)=>{
       if(command=='encrypt'){
         cencrypt(key,text);
@@ -37,11 +37,9 @@ if(process.argv.slice(5).length != 0){ //check if 5th argument exists to run the
     })
 }
 
-
-
 program
   .command('tap-code <command> <plaintext>')
-  .description('Tap-Code Encryption\nOptions:\nencode - Encodes Plaintext with Tap-Code method\ndecode = Decodes Ciphertext with Tap-Code method')
+  .description('Tap-Code Encryption\nOptions:\nencode - Encodes Plaintext with Tap-Code method\ndecode = Decodes Ciphertext with Tap-Code method\n')
   .action((command,plaintext)=>{
     if(command == 'encode'){
       tencrypt(plaintext);
@@ -54,7 +52,7 @@ program
 
 program
   .command('beale <command> <file> <plaintext>')
-  .description('Beale Encryption\nOptions:\nencrypt - Encrypts a plaintext with Beale Cipher Method\ndecrypt - Decrypts a ciphertext whith Beale Cipher Method\nfile - specifies a file that is the key to decrypt the ciphertext')
+  .description('Beale Encryption\nOptions:\nencrypt - Encrypts a plaintext with Beale Cipher Method\ndecrypt - Decrypts a ciphertext whith Beale Cipher Method\nfile - specifies a file that is the key to decrypt the ciphertext\n')
   .action((command,file,plaintext)=>{
     if(command=='encrypt'){
       bencrypt(file,plaintext);
@@ -64,6 +62,6 @@ program
       console.log('Unknown Command at: beale ' + command);
     }
   })
-
+  
 program.parse(process.argv); //parsing the array of line arguments
 

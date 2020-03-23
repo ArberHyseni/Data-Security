@@ -12,6 +12,7 @@ module.exports = {
       }
       if(plaintext[i] === ' '){
         encrypted_text += plaintext[i]; 
+        
       }
       if(plaintext.charCodeAt(i)>=65 && plaintext.charCodeAt(i)<=90){
         if(plaintext.charCodeAt(i)+key<=90){
