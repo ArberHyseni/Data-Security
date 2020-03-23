@@ -6,7 +6,7 @@ const {bencrypt,bdecrypt} = require('./CryptoAlgorithms/bealeChiper');
 const {tencrypt,tdecrypt} = require('./CryptoAlgorithms/tap-codeChiper');
 
 program
-  .version('1.0.6')
+  .version('1.1.0')
   .description('Simple Encryption Algorithms')
 
 program
