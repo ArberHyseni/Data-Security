@@ -8,7 +8,7 @@ module.exports = {
       var output = [];
       for(var i=0;i<5;i++){
         for(var j=0;j<5;j++){
-          if(matrix[i][j]==='K'){
+          if(c==='K'){
             output.push(1);
             output.push(3);
           }
@@ -22,7 +22,7 @@ module.exports = {
     }
     var encrypted_text = '';
     var dot = '.';
-   
+
     for(var i=0;i<plaintext.length;i++){
       if(!plaintext[i].match(/^[A-Za-z\s][A-Za-z\s]*$/)){
         console.log('Only letters allowed!');
