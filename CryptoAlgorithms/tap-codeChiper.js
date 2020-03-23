@@ -40,6 +40,7 @@ module.exports = {
   },
   tdecrypt: (plaintext) =>{
     plaintext = plaintext.trim();
+    plaintext = plaintext.toLowerCase();
     var decrypted_text ="";
     if(plaintext.match(/[A-Za-z0-9]/)){
       console.log('Invalid syntax');
