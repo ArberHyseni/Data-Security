@@ -56,12 +56,12 @@ ds caesar brute-force <ciphertext>
 2.Komanda Tap-Code per enkriptim/dekriptim te nje teksti
 2.1 Komanda per enkriptim me metoden Tap Code:
 ```bash
-ds tap-code encode <plaintext>
+ds tap-code encode <text>
 ```
 
 2.2 Komanda per dekriptim me metoden Tap Code:
 ```bash
-ds tap-code decode <ciphertext>
+ds tap-code decode <code>
 ```
 
 3.Komanda Beale per enkriptim/dekriptim te nje teksti
