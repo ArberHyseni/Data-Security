@@ -36,8 +36,8 @@ dhe me kete perfundon instalimi i programit.
 
 ## Perdorimi
 
-Per ta perdorur aplikacionin, thjeshte duhet te hapni terminalin ne cilindo lokacion dhe te shkruani komandat:
-1.Komanda caesar per enkriptim/dekriptim apo edhe brute-force te nje teksti
+Per ta perdorur aplikacionin, thjeshte duhet te hapni terminalin ne cilindo lokacion dhe te shkruani komandat:  
+1.Komanda caesar per enkriptim/dekriptim apo edhe brute-force te nje teksti  
 1.1 Komanda per enkriptim me metoden e Cezarit:
 ```bash
 ds caesar encrypt <key> <plaintext>
