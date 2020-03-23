@@ -5,7 +5,8 @@ module.exports = {
     plaintext = plaintext.trim();
     var encrypted_text = '';
     var a = [];
-    var double_removed_array = []
+    var double_removed_array = [];
+    //leximi i librit
     fs.readFile(__dirname + '/bealeBook/' + file,'utf-8',(err,data)=>{
       if(err) throw err;
       for(var i=0;i<data.length;i++){
@@ -32,8 +33,9 @@ module.exports = {
     ciphertext = ciphertext.trim();
     var decrypted_text = '';
     var plaintext = ciphertext.split(' ');
+    //leximi i librit
     fs.readFile(__dirname + '/bealeBook/' + file,'utf-8',(err,data)=>{
-      if(err) throw err;
+      if(err) throw err; //error handling
       for(var i=0;i<plaintext.length;i++){
         for(var j=0;j<data.length;j++){
           if(plaintext[i]==j){
