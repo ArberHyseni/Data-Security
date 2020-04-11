@@ -1,12 +1,16 @@
 #!/usr/bin/env node
 const program = require('commander');
+const pkg = require('./package.json')
 const {cencrypt,cdecrypt} = require('./CryptoAlgorithms/caesarChiper');
 const ceasarBrute = require('./CryptoAlgorithms/caesarBruteForce');
 const {bencrypt,bdecrypt} = require('./CryptoAlgorithms/bealeChiper');
 const {tencrypt,tdecrypt} = require('./CryptoAlgorithms/tap-codeChiper');
+const {generateKeys,deleteKeys} = require('./ModernEncryption/keyGenerator');
+const {exportKey, importKey} = require('./ModernEncryption/keyPathChange');
+const {encryptMessage,decryptMessage} = require('./ModernEncryption/sendEncryptedMessage');
 
 program
-  .version('1.1.0')
+  .version(pkg.version)
   .description('Simple Encryption Algorithms')
 
 program
@@ -62,6 +66,47 @@ program
       console.log('Unknown Command at: beale ' + command);
     }
   })
-  
-program.parse(process.argv); //parsing the array of line arguments
 
+program
+  .command('create-user <name>')
+  .description('')
+  .action(name=>{
+    generateKeys(name)
+  })
+
+program
+  .command('delete-user <name>')
+  .description('')
+  .action(name=>{
+    deleteKeys(name)
+  })
+
+program
+  .command('export-key <public|private> <name> [file]')
+  .description('')
+  .action((visibility,name,file)=>{
+    exportKey(visibility,name,file)
+  })
+
+program
+  .command('import-key <name> <path>')
+  .description('')
+  .action((name,path)=>{
+    importKey(name,path);
+  })
+
+program
+  .command('write-message <name> <message> [file]')
+  .description('')
+  .action((name,message,file)=>{
+    encryptMessage(name,message,file)
+  })
+
+program
+  .command('read-message <encrypted-message>')
+  .description('')
+  .action(message=>{
+    decryptMessage(message)
+  })
+
+program.parse(process.argv); //parsing the array of line arguments
