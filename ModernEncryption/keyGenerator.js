@@ -20,17 +20,15 @@ const generateKeys = name =>{
             passphrase: 'top secret'
           }
         });
-        fs.writeFile(__dirname + '/Keys/' + name+ '.pem',privateKey,(err)=>{
-          if(err) throw err;
-          console.log('Eshte krijuar celesi privat \'Keys/' + name + '.pem\'')
-        })
-        fs.writeFile(__dirname + '/Keys/' + name+ '.pub.pem',publicKey,(err)=>{
-          if(err) throw err;
-          console.log('Eshte krijuar celesi publik \'Keys/' + name + '.pub.pem\'')
-        })
+        if(fs.existsSync(__dirname + '/Keys/')){
+          makeKey(privateKey,publicKey,name)
+        }else{
+          fs.mkdirSync(__dirname + '/Keys/');
+          makeKey(privateKey,publicKey,name)
+        }
       }
     }catch(e){
-      console.log('Programi ka pasur nje problem gjate ekzekutimit');
+      console.log(e);
     }
   }
   else{
@@ -52,6 +50,17 @@ const deleteKeys = name => {
   }else{
     console.log('Gabim: Celesi \'' + name + '\' nuk ekziston.');
   }
+}
+
+const makeKey = (privateKey,publicKey,name) => {
+  fs.writeFile(__dirname + '/Keys/' + name+ '.pem',privateKey,(err)=>{
+    if(err) throw err;
+    console.log('Eshte krijuar celesi privat \'Keys/' + name + '.pem\'')
+  })
+  fs.writeFile(__dirname + '/Keys/' + name+ '.pub.pem',publicKey,(err)=>{
+    if(err) throw err;
+    console.log('Eshte krijuar celesi publik \'Keys/' + name + '.pub.pem\'')
+  })
 }
 
 module.exports = {generateKeys,deleteKeys};

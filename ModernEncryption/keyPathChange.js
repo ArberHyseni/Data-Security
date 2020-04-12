@@ -34,7 +34,7 @@ const exportKey = (visibility,name,file) => {
 
 const importKey = (name, file) => {
   if(file.includes('C:/')|| file.includes('c:/')){
-
+    
   }else if(fs.existsSync(os.homedir() + '/' + file)){
     var text = fs.readFileSync(os.homedir() + '/' + file,(err,text)=>{
       if(err) throw err;
