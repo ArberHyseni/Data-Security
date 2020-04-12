@@ -48,7 +48,7 @@ module.exports = {
    }
     var dotspliter = plaintext.split(/\s+/);
 
-    var spacespliter = plaintext.split(/\.+/);
+    var spacespliter = plaintext.split(/\.+/); //ndarje e space
     var matrix = [['A','B','C','D','E'],['F','G','H','I','J']
     ,['L','M','N','O','P'],['Q','R','S','T','U']
     ,['V','W','X','Y','Z']];
