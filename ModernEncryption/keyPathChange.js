@@ -22,8 +22,13 @@ const exportKey = (visibility,name,file) => {
     }
   }
   if(file){
-    if(file.includes('C:/') || file.includes('c:/')){
-      moveFile(__dirname + '/Keys/' + name + '.pub.pem', file,visibility)
+    if(file.includes(':/')){
+      if(fs.existsSync(file)) {
+        moveFile(__dirname + '/Keys/' + name + '.pub.pem', file,visibility)
+      }
+      else {
+        console.log("Dir error.")
+      }
     }else if(fs.existsSync(os.homedir() + '/' + file)){
       console.log('Ekziston nje file tjeter me kete emer ne direktoriumin qe deshironi zhvendosjen e celesit');
     }else{
@@ -33,9 +38,22 @@ const exportKey = (visibility,name,file) => {
 }
 
 const importKey = (name, file) => {
-  if(file.includes('C:/')|| file.includes('c:/')){
+  if(file){
+    if(file.includes(':/')){
+      if(fs.existsSync(file)) {
+        moveFile(file + '/' + name + '.pem', __dirname + '/Keys/' + name + '.pem' + file,visibility)
+      }
+      else {
+        console.log("Dir Error.")
+      }
+    }else if(fs.existsSync(__dirname + '/Keys/' + file)){
+      console.log('Ekziston nje file tjeter me kete emer ne direktoriumin qe deshironi zhvendosjen e celesit');
+    }else{
+      moveFile(__dirname + '/Keys/' + name + '.pem',os.homedir() + '/' + file,visibility)
+    }
     
-  }else if(fs.existsSync(os.homedir() + '/' + file)){
+  }
+  else if(fs.existsSync(os.homedir() + '/' + file)){
     var text = fs.readFileSync(os.homedir() + '/' + file,(err,text)=>{
       if(err) throw err;
     })
