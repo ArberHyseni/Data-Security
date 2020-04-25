@@ -14,13 +14,18 @@ function Command(){
   this.action = (actions) => {
     this._checkActionType(actions)
     this._checkAction(actions)
-    for (var i = 0; i < actions.length; i++) {
-      //getParamNames(actions)[i] = process.argv[i+2]
-    }
+    this._actionsCallBack(actions)
     return this;
   }
 }
 
+Command.prototype._actionsCallBack = (actions) => {
+  var args = []
+  for (var i = 0; i < getParamNames(actions).length; i++) {
+    args.push(process.argv[i])
+  }
+  actions(...args);
+}
 Command.prototype._setCommand = (line) => {
   this.line = line
 }
@@ -32,7 +37,7 @@ Command.prototype._checkActionType = (actions) => {
   }
 }
 
-Command.prototype._checkAction = (actions )=> {
+Command.prototype._checkAction = (actions)=> {
   if(actions.length < this._required){
     console.log('Required arguments for commands are not enforced!')
     process.exit()
@@ -73,11 +78,6 @@ Command.prototype.description = (descriptionText) => {
 }
 
 Command.prototype.close = () => {
-  //console.log(this.line);
-  //console.log(this.descriptionText);
-  //console.log(this._required);
-  //console.log(this._optional);
-  //console.log(this.argumentPassed);
   process.exit()
 }
 
@@ -86,6 +86,8 @@ let cmd = new Command()
 cmd.parse(process.argv)
 cmd.description('This is a test')
 cmd.set('caesar <command> <key> [text]').action((a1,a2)=>{
+  console.log(a1);
+  console.log(a2);
 });
 cmd.close()
 
