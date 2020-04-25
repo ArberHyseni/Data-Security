@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 const program = require('commander');
+const cmd = require('./Commands/index1')
 const pkg = require('./package.json')
 const {cencrypt,cdecrypt} = require('./CryptoAlgorithms/caesarChiper');
 const ceasarBrute = require('./CryptoAlgorithms/caesarBruteForce');
@@ -18,10 +19,9 @@ program
   .description('Encrypts or Decrypts given text with Caesar chiper\nOptions:\nencrypt - Encrypt Plaintext with Caesar method\ndecrypt - Decrypt Chipertext with Caesar method\nkey - number of letters to shift\n')
 
 if(process.argv.slice(5).length != 0){ //check if 5th argument exists to run the below code. References are on references.txt
-  program
-    .command('caesar <command> <key> <text>')
-    .description('Encrypts or Decrypts given text with Caesar chiper\nCommands:\nencrypt - Encrypt Plaintext with Caesar method\ndecrypt - Decrypt Chipertext with Caesar method\n')
-    .action((command,key,text)=>{
+    cmd.parse(process.argv)
+    cmd.description('Encrypts or Decrypts given text with Caesar chiper\nCommands:\nencrypt - Encrypt Plaintext with Caesar method\ndecrypt - Decrypt Chipertext with Caesar method\n')
+    cmd.set('caesar <command> <key> [text]').action((command,key,text)=>{
       if(command=='encrypt'){
         cencrypt(key,text);
       }else if(command == 'decrypt'){
@@ -31,7 +31,8 @@ if(process.argv.slice(5).length != 0){ //check if 5th argument exists to run the
         console.log('Unknown Command at: caesar ' + command);
         process.exit();
       }
-    })
+    });
+    cmd.close()
 }else{
   program
     .command('caesar <brute-force> <chipertext>')

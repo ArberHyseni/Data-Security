@@ -5,24 +5,37 @@ function Command(){
   this.argumentPassed = false
   this._required = 0
   this._optional = 0
+  this.commands = []
   this.descriptionText = ''
   this.set = (line) => {
+    var self = this
     this._setCommand(line)
     this._isrequired()
+    this._seperateCommands(line,self)
     return this;
   }
   this.action = (actions) => {
+    var self = this
     this._checkActionType(actions)
     this._checkAction(actions)
-    this._actionsCallBack(actions)
+    this._actionsCallBack(actions,self)
     return this;
   }
 }
 
-Command.prototype._actionsCallBack = (actions) => {
+Command.prototype._seperateCommands = (line,self) => {
+  line = line.split(' ')
+  for (var i = 0; i < line.length; i++) {
+    if(line[i].includes('<')|| line[i].includes('[')){
+      self.commands.push(i)
+    }
+  }
+}
+
+Command.prototype._actionsCallBack = (actions,self) => {
   var args = []
   for (var i = 0; i < getParamNames(actions).length; i++) {
-    args.push(process.argv[i])
+    args.push(process.argv[self.commands[i]+2])
   }
   actions(...args);
 }
@@ -82,13 +95,14 @@ Command.prototype.close = () => {
 }
 
 //testing
-let cmd = new Command()
-cmd.parse(process.argv)
-cmd.description('This is a test')
-cmd.set('caesar <command> <key> [text]').action((a1,a2)=>{
-  console.log(a1);
-  console.log(a2);
-});
-cmd.close()
+//let cmd = new Command()
+//cmd.parse(process.argv)
+//cmd.description('This is a test')
+//cmd.set('caesar <command> <key> [text]').action((a1,a2,a3,a4)=>{
+  //console.log(a1);
+  //console.log(a2);
+  //console.log(a3);
+//});
+//cmd.close()
 
-//module.exports = new Command()
+module.exports = new Command()
