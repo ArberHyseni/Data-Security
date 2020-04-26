@@ -23,8 +23,16 @@ const exportKey = (visibility,name,file) => {
   }
   if(file){
     if(file.includes(':/')) {
-      if(fs.existsSync(file)) {
-        moveFile(__dirname + '/Keys/' + name + '.pub.pem', file,visibility)
+      fileDir = file.split('/')
+      fileDir.pop()
+      fileDir = fileDir.join('/')
+      if(fs.existsSync(fileDir)) {
+        if(visibility=='private'){
+          moveFile(__dirname + '/Keys/' + name + '.pem', file,visibility)
+        }
+        else if(visibility=='public'){
+          moveFile(__dirname + '/Keys/' + name + '.pub.pem', file,visibility)
+        }
       }
       else {
         console.log("Dir error.")
@@ -51,7 +59,7 @@ const importKey = (name, file) => {
     }else{
       moveFile(__dirname + '/Keys/' + name + '.pem',os.homedir() + '/' + file,visibility)
     }
-    
+
   }
   else if(fs.existsSync(os.homedir() + '/' + file)){
     var text = fs.readFileSync(os.homedir() + '/' + file,(err,text)=>{
