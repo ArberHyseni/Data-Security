@@ -8,6 +8,7 @@ const {tencrypt,tdecrypt} = require('./CryptoAlgorithms/tap-codeChiper');
 const {generateKeys,deleteKeys} = require('./ModernEncryption/keyGenerator');
 const {exportKey, importKey} = require('./ModernEncryption/keyPathChange');
 const {encryptMessage,decryptMessage} = require('./ModernEncryption/sendEncryptedMessage');
+const import_file = require('./ModernEncryption/getandsendrequest.js');
 
 cmd.setVersion(pkg.version)
 
@@ -78,10 +79,23 @@ else if(process.argv[2]=='export-key'){
 else if(process.argv[2]=='import-key'){
   cmd.parse(process.argv)
   cmd.set('import-key <name> <path>').action((name,path)=>{
-    importKey(name,path)
+	  var mypath = path;
+	  var nis = mypath.includes("http");
+	  if(nis){
+		  import_file(name,path);
+	  }else{
+		  importKey(name,path);
+	  }
+  
+	
+	//import_file('file1','https://pastebin.com/raw/s0gvcti0');
+  
+  
   })
-}
-else if(process.argv[2]=='write-message'){
+  
+  
+  
+}else if(process.argv[2]=='write-message'){
   cmd.parse(process.argv)
   cmd.set('write-message <name> <message> [file]').action((name,message,file)=>{
     encryptMessage(name,message,file)
