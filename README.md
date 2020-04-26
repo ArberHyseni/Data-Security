@@ -76,9 +76,6 @@ ds beale decrypt <book> <ciphertext>
 ```
 Komanda ```<book>``` paraqet nje tekst file ne folderin CriptoAlgorithms/bealeBook. Mund te perdoren key te ndryshem nese keni file te ndryshem.
 
-Per me shume informacione per perdorim te aplikacionit perdorni komanden:
-```bash
-ds --help
 ```
 
 ## Kontribuesit

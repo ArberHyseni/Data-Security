@@ -22,7 +22,7 @@ const exportKey = (visibility,name,file) => {
     }
   }
   if(file){
-    if(file.includes(':/')){
+    if(file.includes(':/')) {
       if(fs.existsSync(file)) {
         moveFile(__dirname + '/Keys/' + name + '.pub.pem', file,visibility)
       }
