@@ -35,12 +35,24 @@ const exportKey = (visibility,name,file) => {
         }
       }
       else {
-        console.log("Dir error.")
+        console.log("ENOENT: Directory does not exist!")
       }
     }else if(fs.existsSync(os.homedir() + '/' + file)){
       console.log('Ekziston nje file tjeter me kete emer ne direktoriumin qe deshironi zhvendosjen e celesit');
+    }
+    else if(file.startsWith('~/')){
+      if(visibility=='public'){
+        moveFile(__dirname + '/Keys/' + name + '.pub.pem',os.homedir() + '/' + file.substring(2),visibility)
+      }
+      else{
+        moveFile(__dirname + '/Keys/' + name + '.pem',os.homedir() + '/' + file.substring(2),visibility)
+      }
     }else{
-      moveFile(__dirname + '/Keys/' + name + '.pem',os.homedir() + '/' + file,visibility)
+      if(visibility=='public'){
+        moveFile(__dirname + '/Keys/' + name + '.pub.pem',os.homedir() + '/' + file,visibility)
+      }else{
+        moveFile(__dirname + '/Keys/' + name + '.pem',os.homedir() + '/' + file,visibility)
+      }
     }
   }
 }
