@@ -11,10 +11,6 @@ const {encryptMessage,decryptMessage} = require('./ModernEncryption/sendEncrypte
 
 cmd.setVersion(pkg.version)
 
-program
-  .command('caesar <command> <key> <text>')
-  .description('Encrypts or Decrypts given text with Caesar chiper\nOptions:\nencrypt - Encrypt Plaintext with Caesar method\ndecrypt - Decrypt Chipertext with Caesar method\nkey - number of letters to shift\n')
-
 if(process.argv[2]=='caesar' && (process.argv[3]=='encrypt' || process.argv[3]=='decrypt')){ //check if 5th argument exists to run the below code. References are on references.txt
     cmd.parse(process.argv)
     cmd.description('Encrypts or Decrypts given text with Caesar chiper\nCommands:\nencrypt - Encrypt Plaintext with Caesar method\ndecrypt - Decrypt Chipertext with Caesar method\n')
