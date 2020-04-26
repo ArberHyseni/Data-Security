@@ -11,6 +11,5 @@
   "author": "Arber Hyseni Artan Vrajolli Arianit Halimi",
   "license": "ISC",
   "dependencies": {
-    "commander": "^4.1.1"
   }
 }

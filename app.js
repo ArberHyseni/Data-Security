@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-const program = require('commander');
 const cmd = require('./Commands/index')
 const pkg = require('./package.json')
 const {cencrypt,cdecrypt} = require('./CryptoAlgorithms/caesarChiper');
