@@ -1,17 +1,24 @@
 const getParamNames = require('./lib/getParametersNames')
 
+// **** DISCLAIMER
+//
+// **** THIS IS A ALPHA VERSION AND CAN HAVE MANY BUGS AND NEEDS STATEMENTS TO WORK. FUTURE VERSIONS WILL SUPPORT SELF INSTANCE
+
 function Command(){
   this.line = ''
+  this.executableCommands = new Set()
   this.argumentPassed = false
   this._required = 0
   this._optional = 0
   this.commands = []
   this.descriptionText = ''
+  this.version = ''
   this.set = (line) => {
     var self = this
     this._setCommand(line)
     this._isrequired()
     this._seperateCommands(line,self)
+    this.executableCommands.add(this.set)
     return this;
   }
   this.action = (actions) => {
@@ -19,6 +26,8 @@ function Command(){
     this._checkActionType(actions)
     this._checkAction(actions)
     this._actionsCallBack(actions,self)
+    this.executableCommands.add(this.action)
+    console.log(this.executableCommands.size);
     return this;
   }
 }
@@ -67,6 +76,7 @@ Command.prototype.parse = (argv) => {
     process.exit()
   }
   this.argumentPassed = true
+  //this.executableCommands.add('test')
 }
 
 Command.prototype.isParsed = () => {
@@ -88,21 +98,15 @@ Command.prototype._isrequired = () => {
 
 Command.prototype.description = (descriptionText) => {
   this.descriptionText = descriptionText
+  //this.executableCommands.add(this.description)
+}
+
+Command.prototype.setVersion = (version) => {
+  this.version = version
 }
 
 Command.prototype.close = () => {
   process.exit()
 }
-
-//testing
-//let cmd = new Command()
-//cmd.parse(process.argv)
-//cmd.description('This is a test')
-//cmd.set('caesar <command> <key> [text]').action((a1,a2,a3,a4)=>{
-  //console.log(a1);
-  //console.log(a2);
-  //console.log(a3);
-//});
-//cmd.close()
 
 module.exports = new Command()
