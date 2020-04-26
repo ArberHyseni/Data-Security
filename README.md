@@ -74,9 +74,8 @@ ds beale encrypt <book> <plaintext>
 ```bash
 ds beale decrypt <book> <ciphertext>
 ```
-Komanda ```<book>``` paraqet nje tekst file ne folderin CriptoAlgorithms/bealeBook. Mund te perdoren key te ndryshem nese keni file te ndryshem.
 
-```
+Komanda ```<book>``` paraqet nje tekst file ne folderin CriptoAlgorithms/bealeBook. Mund te perdoren key te ndryshem nese keni file te ndryshem.
 
 ## Kontribuesit
 
