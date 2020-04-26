@@ -27,7 +27,6 @@ function Command(){
     this._checkAction(actions)
     this._actionsCallBack(actions,self)
     this.executableCommands.add(this.action)
-    console.log(this.executableCommands.size);
     return this;
   }
 }
