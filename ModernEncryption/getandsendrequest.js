@@ -1,5 +1,6 @@
 const request = require('request');
 const cheerio = require('cheerio');
+const crypto = require('crypto');
 const fs = require('fs');
 
 const import_file = (namefilesaved,link)=>{
@@ -47,10 +48,30 @@ request(link,(error,response,html)=>{
 				console.log(err)
 	  }
 	})
+	
+	
+	
+	if(extension == '.pem'){
+	extension_public = '.pub.pem';
+	var privateKey = crytext;
+    var test = crypto.createPrivateKey({'key': privateKey,'passphrase': 'top secret','cipher': 'aes-256-cbc'})
+    var test2 = crypto.createPublicKey(test).export({'type':'spki','format': 'pem','cipher': 'aes-256-cbc','passphrase':'top secret'});
+	
+
+	fs.writeFile("./ModernEncryption/Keys/"+namefilesaved+extension_public, test2, function (err) {
+	  if (err) throw err;
+	  console.log('Saved RSA Public: '+namefilesaved+extension_public);
+	});
+	
+	
+	}
+	
+	
+	
 	// code EEXIST  invers code 881
 	fs.writeFile("./ModernEncryption/Keys/"+namefilesaved+extension, crytext, function (err) {
 	  if (err) throw err;
-	  console.log('The File is saved on Keys\\'+namefilesaved+extension);
+	  console.log('Saved RSA: '+namefilesaved+extension);
 	});
 	
 
