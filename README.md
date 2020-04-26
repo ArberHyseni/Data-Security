@@ -86,15 +86,15 @@ Nese ka ndonje verzion te ri, ju lutemi te qendroni te perditesuar.
 
 ## Shembuj
 
-```
+```bash
 $ ds caesar encrypt 8 "Miresevini ne Fiek"
 Uqzmamdqvq vm Nqms
 ```
-```
+```bash
 $ ds caesar decrypt 8 "Uqzmamdqvq vm Nqms"
 Miresevini ne Fiek
 ```
-```
+```bash
 $ ds caesar brute-force "miresevini ne fiek"
 key 1: lhqdrduhmh md ehdj
 
@@ -146,23 +146,23 @@ key 24: oktgugxkpk pg hkgm
 
 key 25: njsftfwjoj of gjfl
 ```
-```
+```bash
 $ ds tap-code encode "Miresevini ne Fiek"
 ... .. .. .... .... .. . ..... .... ... . ..... ..... . .. .... ... ... .. ....  ... ... . .....  .. . .. .... . ..... . ...
 ```
-```
+```bash
 $ ds tap-code decode "... .. .. .... .... .. . ..... .... ... . ..... ..... . .. .... ... ... .. ....  ... ... . .....  .. . .. .... . ..... . ..."
 miresevini ne fiec
 ```
-```
+
+```bash
 $ ds beale encrypt libri.txt "miresevini ne fiek"
 23 7 12 3 25 3 28 7 15 7 15 3 17 7 3 9
 ```
-```
+```bash
 $ ds beale decrypt libri.txt "23 7 12 3 25 3 28 7 15 7 15 3 17 7 3 9"
 miresevininefiek
 ```
-
 
 ## Licenca
 [ISC](https://opensource.org/licenses/ISC)
