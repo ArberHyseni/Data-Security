@@ -23,10 +23,7 @@ const exportKey = (visibility,name,file) => {
   }
   if(file){
     if(file.includes(':/')) {
-      fileDir = file.split('/')
-      fileDir.pop()
-      fileDir = fileDir.join('/')
-      if(fs.existsSync(fileDir)) {
+      if(fs.existsSync(findDir(file))) {
         if(visibility=='private'){
           moveFile(__dirname + '/Keys/' + name + '.pem', file,visibility)
         }
@@ -58,20 +55,37 @@ const exportKey = (visibility,name,file) => {
 }
 
 const importKey = (name, file) => {
-  if(file){
-    if(file.includes(':/')){
-      if(fs.existsSync(file)) {
-        moveFile(file + '/' + name + '.pem', __dirname + '/Keys/' + name + '.pem' + file,visibility)
+  if(file.includes(':/')){
+    if(fs.existsSync(findDir(file))){
+      if(fs.existsSync(file)){
+        var text = fs.readFileSync(file,(err,text)=>{
+          if(err) throw err
+        })
+        if(text.toString().includes('PRIVATE')){
+          moveFile(file,__dirname + '/Keys/' + name + '.pem','private');
+          setTimeout(()=>{
+            //
+          }, 1000);
+          let privateKey = fs.readFileSync(__dirname + '/Keys/' + name + '.pem');
+          var test = crypto.createPrivateKey({'key': privateKey,'passphrase': 'top secret','cipher': 'aes-256-cbc'})
+          var test2 = crypto.createPublicKey(test).export({'type':'spki','format': 'pem','cipher': 'aes-256-cbc','passphrase':'top secret'});
+          fs.writeFile(__dirname + '/Keys/' + name+ '.pub.pem',test2,(err)=>{
+            if(err) throw err;
+            console.log('Eshte krijuar celesi publik \'Keys/' + name + '.pub.pem\'')
+          })
+        }
+        else if(text.toString().includes('PUBLIC')){
+          moveFile(file,__dirname+ '/Keys/' + name + '.pub.pem',visibility)
+        }
+        else{
+          console.log('Invalid key format');
+        }
+      }else{
+        console.log('ENOENT: File does not exist!');
       }
-      else {
-        console.log("Dir Error.")
-      }
-    }else if(fs.existsSync(__dirname + '/Keys/' + file)){
-      console.log('Ekziston nje file tjeter me kete emer ne direktoriumin qe deshironi zhvendosjen e celesit');
     }else{
-      moveFile(__dirname + '/Keys/' + name + '.pem',os.homedir() + '/' + file,visibility)
+      console.log('ENOENT: Directory does not exist!');
     }
-
   }
   else if(fs.existsSync(os.homedir() + '/' + file)){
     var text = fs.readFileSync(os.homedir() + '/' + file,(err,text)=>{
@@ -93,6 +107,9 @@ const importKey = (name, file) => {
       moveFile(os.homedir() + '/' + file,__dirname + '/Keys/' + file,'private')
     }
   }
+  else{
+    console.log('Invalid path - please check you syntax');
+  }
 }
 
 const moveFile = (oldpath,newpath,visibility) =>{
@@ -107,6 +124,13 @@ const moveFile = (oldpath,newpath,visibility) =>{
       console.log('Celesi privat u ruajt ne fajllin '  + '.pem');
     })
   }
+}
+
+const findDir = (pathname) => {
+  fileDir = pathname.split('/')
+  fileDir.pop()
+  fileDir = fileDir.join('/')
+  return fileDir
 }
 
 module.exports = {exportKey,importKey};
