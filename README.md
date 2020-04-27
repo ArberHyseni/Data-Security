@@ -13,18 +13,13 @@ npm --version
 Pasi te keni instaluar NodeJS dhe te keni shkarkuar folderin e projektit, ne folderin e projektit te shkarkuar, hapeni terminalin dhe shkruani komanden:
 
 ```bash
-npm i commander
+npm i
 ```
 
 Pastaj perdoreni komanden:
 
 ```bash
 npm link
-```
-
-Per te vertetuar instalimin e plote te aplikacionit perdorni komanden:
-```bash
-ds --version
 ```
 
 dhe me kete perfundon instalimi i programit.
@@ -70,7 +65,34 @@ ds write-message <name> <message> [file]
 ```bash
 ds read-message <encrypted-message>
 ```
+## Shembuj 
+```bash
+$ ds create-user johndoe
+Eshte krijuar celesi privat 'Keys/johndoe.pem'
+Eshte krijuar celesi publik 'Keys/johndoe.pub.pem'
+```
 
+```bash
+$ ds delete-user johndoe
+Eshte larguar celesi privat 'keys/johndoe.pem'
+Eshte larguar celesi publik 'keys/johndoepub.pum
+```
+
+```bash
+ ds export-key public johndoe
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvzRo6UU69kgc236WCopt
+QWyjgPHX3u18whrg1XVY3vOSpZ62WUCFHoyhlNdxcGX...
+-----END PUBLIC KEY-----
+```
+
+```bash
+
+
+
+
+
+## Faza e pare
 Ne kete repository mund te gjeni tri lloje te enkriptimit klasik:
 
 Caesar Cipher
@@ -122,7 +144,7 @@ Komanda ```<book>``` paraqet nje tekst file ne folderin CriptoAlgorithms/bealeBo
 
 ## Kontribuesit
 
-Krijues te ketij aplikacioni jane: Arianit Halimi,Artan Vrajolli dhe Arber Hyseni.
+Krijues te ketij aplikacioni jane: Arianit Halimi, Artan Vrajolli dhe Arber Hyseni.
 Pull requests jane te mirepritura. Per permiresime, ju lutemi qe fillimisht te hapni nje diskutim per ato ndryshime.
 Nese ka ndonje verzion te ri, ju lutemi te qendroni te perditesuar.
 

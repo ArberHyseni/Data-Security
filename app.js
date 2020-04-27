@@ -86,15 +86,8 @@ else if(process.argv[2]=='import-key'){
 	  }else{
 		  importKey(name,path);
 	  }
-  
-	
 	//import_file('file1','https://pastebin.com/raw/s0gvcti0');
-  
-  
   })
-  
-  
-  
 }else if(process.argv[2]=='write-message'){
   cmd.parse(process.argv)
   cmd.set('write-message <name> <message> [file]').action((name,message,file)=>{

@@ -127,7 +127,7 @@ const moveFile = (oldpath,newpath,visibility) =>{
 }
 
 const findDir = (pathname) => {
-  fileDir = pathname.split('/')
+  var fileDir = pathname.split('/')
   fileDir.pop()
   fileDir = fileDir.join('/')
   return fileDir
