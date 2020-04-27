@@ -1,11 +1,6 @@
 # DS_2020-18
 
-DS_2020-18 eshte repository i projektit te grupit 18 per teknikat klasike te enkriptimit.
-Ne kete repository gjinden tre lloje te enkriptimit:
-1. Caesar Cipher
-2. Tap-Code Cipher
-3. Beale Cipher
-
+DS_2020-18 eshte repository i projektit te grupit 18.
 ## Instalimi
 
 Per te perdorur programin duhet te instalohet [NodeJS](https://nodejs.org/en/) per perdorim te paketes [NPM](https://www.npmjs.com/).
@@ -75,6 +70,13 @@ ds write-message <name> <message> [file]
 ```bash
 ds read-message <encrypted-message>
 ```
+
+Ne kete repository mund te gjeni tri lloje te enkriptimit klasik:
+
+Caesar Cipher
+Tap-Code Cipher
+Beale Ciphe
+
 ## Shembuj 
 
 
