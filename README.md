@@ -34,9 +34,50 @@ ds --version
 
 dhe me kete perfundon instalimi i programit.
 
-## Perdorimi
+## Perdorimi  
+## FAZA 2  
+## Modern Encryption
 
-Per ta perdorur aplikacionin, thjeshte duhet te hapni terminalin ne cilindo lokacion dhe te shkruani komandat:  
+Per ta perdorur aplikacionin, thjeshte duhet te hapni terminalin ne cilindo lokacion dhe te shkruani komandat:
+
+1. Komanda create-user, krijon një çift te celesave privat dhe publik të RSA me emrat <name>.pem dhe <name>.pub.pem
+```bash
+ds create-user <name>
+```
+
+2. Komanda delete-user, i largon te gjithe celesat e <user>
+```bash
+ds delete-user <name>
+```
+
+3. Komanda export-key, eksporton çelësin publik ose privat të shfrytëzuesit nga direktoriumi i çelësave, argumenti file eshte opsional dhe percakton shtegun e fajllit se ku do te ruhet celesi i eksportuar, nese mungon argumenti atëherë çelësi do të shfaqet në console.
+```bash
+ds export-key <public|private> <name> [file]
+```
+
+4. Komanda import-key, Importon çelësin publik ose privat të shfrytëzuesit nga shtegu i dhënë dhe e vendos në direktoriumin e çelësave.
+```bash
+ ds import-key <name> <path>
+```
+
+5. Komanda write-message, e shkruan një mesazh të enkriptuar të dedikuar për një shfrytëzues. Argumenti opsional [file] e përcakton shtegun e fajllit se ku do të ruhet mesazhi i enkriptuar. Nëse mungon argumenti, atëherë mesazhi i enkriptuar do të shfaqet në console.  
+Enkriptimi behet si me poshte:
+```bash
+ciphertext = base64(utf8(<name>)) . base64(<iv>)
+. base64(rsa(<key>)) . base64(des(<message>))
+```
+dhe sintaksa eshte si vijon
+```bash
+ds write-message <name> <message> [file]
+```
+
+6. Komanda read-message, e dekripton dhe e shfaq në console mesazhin e enkriptuar. Sintaksa eshte:  
+```bash
+ds read-message <encrypted-message>
+```
+## Shembuj 
+
+
 1.Komanda caesar per enkriptim/dekriptim apo edhe brute-force te nje teksti  
 1.1 Komanda per enkriptim me metoden e Cezarit:
 ```bash
@@ -162,6 +203,7 @@ $ ds beale encrypt libri.txt "miresevini ne fiek"
 $ ds beale decrypt libri.txt "23 7 12 3 25 3 28 7 15 7 15 3 17 7 3 9"
 miresevininefiek
 ```
+
 
 ## Licenca
 [ISC](https://opensource.org/licenses/ISC)
