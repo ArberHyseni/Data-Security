@@ -55,7 +55,27 @@ const exportKey = (visibility,name,file) => {
 }
 
 const importKey = (name, file) => {
-  if(file.includes(':/')){
+  if(file.includes(':/') || file.startsWith('~/')){
+    if(file.startsWith('~/')){
+      if(fs.existsSync(os.homedir() + '/' + file.substring(2))){
+        var text = fs.readFileSync(os.homedir() + '/' + file.substring(2),(err,text)=>{
+          if(err) throw err
+        })
+        if(text.toString().includes('PRIVATE')){
+          moveFile(os.homedir() + '/' + file.substring(2),__dirname + '/Keys/' + name + '.pem','private');
+          setTimeout(()=>{
+            //
+          }, 1000);
+          let privateKey = fs.readFileSync(__dirname + '/Keys/' + name + '.pem');
+          var test = crypto.createPrivateKey({'key': privateKey,'passphrase': 'top secret','cipher': 'aes-256-cbc'})
+          var test2 = crypto.createPublicKey(test).export({'type':'spki','format': 'pem','cipher': 'aes-256-cbc','passphrase':'top secret'});
+          fs.writeFile(__dirname + '/Keys/' + name+ '.pub.pem',test2,(err)=>{
+            if(err) throw err;
+            console.log('Eshte krijuar celesi publik \'Keys/' + name + '.pub.pem\'')
+          })
+        }
+      }
+    }
     if(fs.existsSync(findDir(file))){
       if(fs.existsSync(file)){
         var text = fs.readFileSync(file,(err,text)=>{
