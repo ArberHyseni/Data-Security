@@ -80,11 +80,22 @@ else if(process.argv[2]=='import-key'){
   cmd.parse(process.argv)
   cmd.set('import-key <name> <path>').action((name,path)=>{
 	  var mypath = path;
+	  
+	  if(mypath == null || mypath === 'undefined'){
+		console.log('No path is given <path>!');
+        process.exit();
+	  }else if(name == null || name === 'undefined'){
+		console.log('No name is given <name>!');
+        process.exit();
+	  }else{
+		  
 	  var nis = mypath.includes("http");
 	  if(nis){
 		  import_file(name,path);
 	  }else{
 		  importKey(name,path);
+	  }
+	  
 	  }
 	//import_file('file1','https://pastebin.com/raw/s0gvcti0');
   })

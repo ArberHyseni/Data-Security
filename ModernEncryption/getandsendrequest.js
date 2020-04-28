@@ -4,10 +4,18 @@ const crypto = require('crypto');
 const fs = require('fs');
 
 const import_file = (namefilesaved,link)=>{
+	// code keys invers code  879
+	if(namefilesaved == ''){
+		console.log('File name is missing <name>!');
+		process.exit();
+	}else if(link == ''){
+		console.log('Link is missing <name>!');
+		process.exit();
+	}
 request(link,(error,response,html)=>{
 	
 	if(error || response.statusCode != 200){
-		console.log('Fail to connect! make sure is connected to internet!');
+		console.log('Fail to connect make sure you have correct link!');
 		process.exit();
 	}
 	const $ = cheerio.load(html);
@@ -61,6 +69,19 @@ request(link,(error,response,html)=>{
 }
 module.exports = import_file;
 
-//import_file('file1','https://pastebin.com/raw/s0gvcti0');
 
-// in end of line is the end of the word 
+// ds import-key file1 https://pastebin.com/raw/s0gvcti0
+//import_file('file1','https://pastebin.com/raw/s0gvcti0'); // example if you want to test
+
+
+
+
+
+
+
+
+
+
+
+
+// in end of line is the end of the words 
