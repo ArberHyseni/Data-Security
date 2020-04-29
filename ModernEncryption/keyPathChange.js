@@ -4,6 +4,9 @@ const os = require('os');
 const crypto = require('crypto')
 
 const exportKey = (visibility,name,file) => {
+  visibility = visibility.trim()
+  name = name.trim()
+  file = file.trim()
   if((visibility !== 'public' && visibility !== 'private') || !name.match(/^[a-zA-Z0-9_]*$/)){
     console.log('There is an invalid argument');
   }
