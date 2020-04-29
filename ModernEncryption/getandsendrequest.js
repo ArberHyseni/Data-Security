@@ -98,23 +98,10 @@ console.log("\n-----------------------------");
 });
 
 }
-
-
 module.exports = {import_file,showlistkets};
 
 
 // ds import-key file1 https://pastebin.com/raw/s0gvcti0
 //import_file('file1','https://pastebin.com/raw/s0gvcti0'); // example if you want to test
-
-
-
-
-
-
-
-
-
-
-
 
 // in end of line is the end of the words 
