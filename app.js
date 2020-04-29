@@ -8,7 +8,7 @@ const {tencrypt,tdecrypt} = require('./CryptoAlgorithms/tap-codeChiper');
 const {generateKeys,deleteKeys} = require('./ModernEncryption/keyGenerator');
 const {exportKey, importKey} = require('./ModernEncryption/keyPathChange');
 const {encryptMessage,decryptMessage} = require('./ModernEncryption/sendEncryptedMessage');
-const {import_file,showlistkets} = require('./ModernEncryption/getandsendrequest.js');
+const {import_file,showlistkeys} = require('./ModernEncryption/getAndSendRequest.js');
 
 cmd.setVersion(pkg.version)
 
@@ -113,7 +113,7 @@ else if(process.argv[2]=='read-message'){
 }else if(process.argv[2]=='list-keys'){
   cmd.parse(process.argv)
   cmd.set('list-keys').action((message)=>{
-    showlistkets();
+    showlistkeys();
   })
 }else {
   console.log('Unknown command at: ' + process.argv[2]);
