@@ -68,7 +68,7 @@ request(link,(error,response,html)=>{
 });
 }
 
-const showlistkets = ()=>{
+const showlistkeys = ()=>{
 const checkforkeys = './ModernEncryption/Keys/';
 fs.readdir(checkforkeys, (err, files) => {
 console.log("-----------------------------");
@@ -98,7 +98,7 @@ console.log("\n-----------------------------");
 });
 
 }
-module.exports = {import_file,showlistkets};
+module.exports = {import_file,showlistkeys};
 
 
 // ds import-key file1 https://pastebin.com/raw/s0gvcti0
