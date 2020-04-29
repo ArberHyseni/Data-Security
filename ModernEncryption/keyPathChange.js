@@ -58,6 +58,8 @@ const exportKey = (visibility,name,file) => {
 }
 
 const importKey = (name, file) => {
+  name = name.trim()
+  file = file.trim()
   if(file.includes(':/') || file.startsWith('~/')){
     if(file.startsWith('~/')){
       if(fs.existsSync(os.homedir() + '/' + file.substring(2))){

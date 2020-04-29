@@ -2,6 +2,7 @@ const fs = require('fs')
 const crypto = require('crypto')
 
 const generateKeys = name =>{
+  name = name.trim()
   if(name.match(/^[a-zA-Z0-9_]*$/)){
     try{
       if(fs.existsSync(__dirname + '/Keys/'+name+'.pem') || fs.existsSync(__dirname + '/Keys/' + name + '.pub.pem')){
@@ -38,6 +39,7 @@ const generateKeys = name =>{
 }
 
 const deleteKeys = name => {
+  name = name.trim()
   if(fs.existsSync(__dirname + '/Keys/'+name+'.pem') || fs.existsSync(__dirname + '/Keys/' + name + '.pub.pem')){
     fs.unlink(__dirname + '/Keys/' + name + '.pem',(err)=>{
       if(err) throw err;
