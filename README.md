@@ -87,12 +87,22 @@ QWyjgPHX3u18whrg1XVY3vOSpZ62WUCFHoyhlNdxcGX...
 ```
 
 ```bash
-ds export-key private artan ~/Desktop/key_exported.pem
+ds export-key private johndoe ~/Desktop/key_exported.pem
 Celesi privat u ruajt ne fajllin .pem
 
 ```
 
 ```bash
+ds list-keys
+-----------------------------
+
+| elonmusk       [Private][Public]
+| fiek           [Private][Public]
+| mykey          [Private][Public]
+| johndoe        [Private][Public]
+> Total keys: 4
+-----------------------------
+
 ```
 
 
