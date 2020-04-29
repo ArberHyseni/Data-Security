@@ -67,7 +67,40 @@ request(link,(error,response,html)=>{
 	});
 });
 }
-module.exports = import_file;
+
+const showlistkets = ()=>{
+const checkforkeys = './ModernEncryption/Keys/';
+fs.readdir(checkforkeys, (err, files) => {
+console.log("-----------------------------");
+var file_output = "";
+var total_keys = 0;
+	if(err || files == null){
+		console.log("No keys here");
+	}else{
+		files.forEach(file => {
+			
+			var takethisfile = file.match(/(.*?)\.(.*)[\.]?/);
+			if(!file_output.includes("\n| "+takethisfile[1])){
+				file_output += "\n| "+takethisfile[1]+' '.repeat(15-takethisfile[1].length);
+				total_keys += 1;
+			}
+			if(takethisfile[2] === 'pem')
+				file_output += "[Private]";
+			else if (takethisfile[2] === 'pub.pem')
+				file_output += "[Public]"
+		});
+		
+		console.log(file_output);
+		
+	}
+	console.log("> Total keys: "+total_keys);
+console.log("\n-----------------------------");
+});
+
+}
+
+
+module.exports = {import_file,showlistkets};
 
 
 // ds import-key file1 https://pastebin.com/raw/s0gvcti0
