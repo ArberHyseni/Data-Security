@@ -118,8 +118,10 @@ const importKey = (name, file) => {
     })
     if(text.toString().includes('PRIVATE')){
       moveFile(os.homedir() + '/' + file,__dirname + '/Keys/' + file,'public');
-      setTimeout(()=>{
-        //
+      setTimeout(() => {
+        var c = 0
+        for (var i = 0;i<=250;i++)
+              var c = c + i
       }, 1000);
       let privateKey = fs.readFileSync(__dirname + '/Keys/' + name + '.pem');
       var test = crypto.createPrivateKey({'key': privateKey,'passphrase': 'top secret','cipher': 'aes-256-cbc'})
