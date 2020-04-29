@@ -75,7 +75,7 @@ Eshte krijuar celesi publik 'Keys/johndoe.pub.pem'
 ```bash
 $ ds delete-user johndoe
 Eshte larguar celesi privat 'keys/johndoe.pem'
-Eshte larguar celesi publik 'keys/johndoepub.pum
+Eshte larguar celesi publik 'keys/johndoe.pub.pum
 ```
 
 ```bash
@@ -87,6 +87,13 @@ QWyjgPHX3u18whrg1XVY3vOSpZ62WUCFHoyhlNdxcGX...
 ```
 
 ```bash
+ds export-key private artan ~/Desktop/key_exported.pem
+Celesi privat u ruajt ne fajllin .pem
+
+```
+
+```bash
+```
 
 
 
@@ -99,7 +106,7 @@ Caesar Cipher
 Tap-Code Cipher
 Beale Ciphe
 
-## Shembuj 
+## Komandat
 
 
 1.Komanda caesar per enkriptim/dekriptim apo edhe brute-force te nje teksti  
