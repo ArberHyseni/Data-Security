@@ -100,7 +100,7 @@ const importKey = (name, file) => {
           })
         }
         else if(text.toString().includes('PUBLIC')){
-          moveprocess(file,__dirname+ '/Keys/' + name + '.pub.pem',visibility)
+          moveprocess(file,__dirname+ '/Keys/' + name + '.pub.pem','public')
         }
         else{
           console.log('Invalid key format');

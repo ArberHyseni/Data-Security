@@ -79,7 +79,7 @@ var total_keys = 0;
 	}else{
 		files.forEach(file => {
 			
-			var takethisfile = file.match(/(.*?)\.(.*)[\.]?/);
+			var takethisfile = file.match(/(.*?)\.(.*)/);
 			if(!file_output.includes("\n| "+takethisfile[1])){
 				file_output += "\n| "+takethisfile[1]+' '.repeat(15-takethisfile[1].length);
 				total_keys += 1;
