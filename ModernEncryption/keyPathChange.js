@@ -28,10 +28,10 @@ const exportKey = (visibility,name,file) => {
     if(file.includes(':/')) {
       if(fs.existsSync(findDir(file))) {
         if(visibility=='private'){
-          moveFile(__dirname + '/Keys/' + name + '.pem', file,visibility)
+          moveprocess(__dirname + '/Keys/' + name + '.pem', file,visibility)
         }
         else if(visibility=='public'){
-          moveFile(__dirname + '/Keys/' + name + '.pub.pem', file,visibility)
+          moveprocess(__dirname + '/Keys/' + name + '.pub.pem', file,visibility)
         }
       }
       else {
@@ -42,16 +42,16 @@ const exportKey = (visibility,name,file) => {
     }
     else if(file.startsWith('~/')){
       if(visibility=='public'){
-        moveFile(__dirname + '/Keys/' + name + '.pub.pem',os.homedir() + '/' + file.substring(2),visibility)
+        moveprocess(__dirname + '/Keys/' + name + '.pub.pem',os.homedir() + '/' + file.substring(2),visibility)
       }
       else{
-        moveFile(__dirname + '/Keys/' + name + '.pem',os.homedir() + '/' + file.substring(2),visibility)
+        moveprocess(__dirname + '/Keys/' + name + '.pem',os.homedir() + '/' + file.substring(2),visibility)
       }
     }else{
       if(visibility=='public'){
-        moveFile(__dirname + '/Keys/' + name + '.pub.pem',os.homedir() + '/' + file,visibility)
+        moveprocess(__dirname + '/Keys/' + name + '.pub.pem',os.homedir() + '/' + file,visibility)
       }else{
-        moveFile(__dirname + '/Keys/' + name + '.pem',os.homedir() + '/' + file,visibility)
+        moveprocess(__dirname + '/Keys/' + name + '.pem',os.homedir() + '/' + file,visibility)
       }
     }
   }
@@ -67,7 +67,7 @@ const importKey = (name, file) => {
           if(err) throw err
         })
         if(text.toString().includes('PRIVATE')){
-          moveFile(os.homedir() + '/' + file.substring(2),__dirname + '/Keys/' + name + '.pem','private');
+          moveprocess(os.homedir() + '/' + file.substring(2),__dirname + '/Keys/' + name + '.pem','private');
           setTimeout(()=>{
             //
           }, 1000);
@@ -87,7 +87,7 @@ const importKey = (name, file) => {
           if(err) throw err
         })
         if(text.toString().includes('PRIVATE')){
-          moveFile(file,__dirname + '/Keys/' + name + '.pem','private');
+          moveprocess(file,__dirname + '/Keys/' + name + '.pem','private');
           setTimeout(()=>{
             //
           }, 1000);
@@ -100,7 +100,7 @@ const importKey = (name, file) => {
           })
         }
         else if(text.toString().includes('PUBLIC')){
-          moveFile(file,__dirname+ '/Keys/' + name + '.pub.pem',visibility)
+          moveprocess(file,__dirname+ '/Keys/' + name + '.pub.pem',visibility)
         }
         else{
           console.log('Invalid key format');
@@ -117,12 +117,7 @@ const importKey = (name, file) => {
       if(err) throw err;
     })
     if(text.toString().includes('PRIVATE')){
-      moveFile(os.homedir() + '/' + file,__dirname + '/Keys/' + file,'public');
-      setTimeout(() => {
-        var c = 0
-        for (var i = 0;i<=250;i++)
-              var c = c + i
-      }, 1000);
+      moveprocess(os.homedir() + '/' + file,__dirname + '/Keys/' + file,'public');
       let privateKey = fs.readFileSync(__dirname + '/Keys/' + name + '.pem');
       var test = crypto.createPrivateKey({'key': privateKey,'passphrase': 'top secret','cipher': 'aes-256-cbc'})
       var test2 = crypto.createPublicKey(test).export({'type':'spki','format': 'pem','cipher': 'aes-256-cbc','passphrase':'top secret'});
@@ -131,7 +126,7 @@ const importKey = (name, file) => {
         console.log('Eshte krijuar celesi publik \'Keys/' + name + '.pem\'')
       })
     }else if(text.toString().includes('PUBLIC')){
-      moveFile(os.homedir() + '/' + file,__dirname + '/Keys/' + file,'private')
+      moveprocess(os.homedir() + '/' + file,__dirname + '/Keys/' + file,'private')
     }
   }
   else{
@@ -139,19 +134,23 @@ const importKey = (name, file) => {
   }
 }
 
-const moveFile = (oldpath,newpath,visibility) =>{
-  if(visibility=='public'){
-    fs.rename(oldpath, newpath, (err)=>{
-      if(err) throw err;
-      console.log('Celesi publik u ruajt ne fajllin ' + '.pub.pem');
-    })
-  }else if(visibility=='private'){
-    fs.rename(oldpath, newpath, (err)=>{
-      if(err) throw err;
-      console.log('Celesi privat u ruajt ne fajllin '  + '.pem');
-    })
+const moveprocess = async (oldpath,newpath,visibility) => {
+  const moveFile = (oldpath,newpath,visibility) =>{
+    if(visibility=='public'){
+      fs.rename(oldpath, newpath, (err)=>{
+        if(err) throw err;
+        console.log('Celesi publik u ruajt ne fajllin ' + '.pub.pem');
+      })
+    }else if(visibility=='private'){
+      fs.rename(oldpath, newpath, (err)=>{
+        if(err) throw err;
+        console.log('Celesi privat u ruajt ne fajllin '  + '.pem');
+      })
+    }
   }
+  const movevar = await moveFile(oldpath,newpath,visibility)
 }
+
 
 const findDir = (pathname) => {
   var fileDir = pathname.split('/')
