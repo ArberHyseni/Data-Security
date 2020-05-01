@@ -93,6 +93,17 @@ Celesi privat u ruajt ne fajllin .pem
 ```
 
 ```bash
+$ ds write-message arber "Hello"
+YXJiZXI=.H/xxQw53+b8=.LcV3YbuedkavzAhPqUWsI5J4Qzlu7KxK9X13n9cUuiMlYLd5nfKK1AqIdy5DROfY6JRiVz/VbhYOmQqLQRDqHhMtmPj1h41XRkiXu/wZc40jBLS9hXTS2VzDXAfs0BsWpVNdcIY8uYr1EdbeeyEWFO7/PRnAmaz3mJita0Bdt8c129KAlqY0aXKn3bs/Z9hCdEKb5v5gUW3xGINOtu3C0HOeimA7z4GQbrA4Za1fsWcNR8LIQBPlX6asG0F3dkGinc0Lm8yf2skhEFsgbCVsXlmUTyG7ShHeYUKRYcRGDAnHgh+BssXMNZdvIkHeqvSFPRhIhr+ia+sIGjR1WttYUw==.EX0Mr+b5Xo4=
+```
+
+```bash
+$ ds read-message "YXJiZXI=.H/xxQw53+b8=.LcV3YbuedkavzAhPqUWsI5J4Qzlu7KxK9X13n9cUuiMlYLd5nfKK1AqIdy5DROfY6JRiVz/VbhYOmQqLQRDqHhMtmPj1h41XRkiXu/wZc40jBLS9hXTS2VzDXAfs0BsWpVNdcIY8uYr1EdbeeyEWFO7/PRnAmaz3mJita0Bdt8c129KAlqY0aXKn3bs/Z9hCdEKb5v5gUW3xGINOtu3C0HOeimA7z4GQbrA4Za1fsWcNR8LIQBPlX6asG0F3dkGinc0Lm8yf2skhEFsgbCVsXlmUTyG7ShHeYUKRYcRGDAnHgh+BssXMNZdvIkHeqvSFPRhIhr+ia+sIGjR1WttYUw==.EX0Mr+b5Xo4="
+Marresi: arber
+Mesazhi: Hello
+```
+
+```bash
 ds list-keys
 -----------------------------
 
