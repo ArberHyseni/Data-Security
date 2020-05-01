@@ -79,15 +79,12 @@ Eshte larguar celesi publik 'keys/johndoe.pub.pum
 ```
 
 ```bash
- ds export-key public johndoe
------BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvzRo6UU69kgc236WCopt
-QWyjgPHX3u18whrg1XVY3vOSpZ62WUCFHoyhlNdxcGX...
------END PUBLIC KEY-----
+$ ds export-key public elon ~/Desktop/johndoe.pub.pem
+Celesi publik u ruajt ne fajllin .pub.pem
 ```
 
 ```bash
-ds export-key private johndoe ~/Desktop/key_exported.pem
+$ ds export-key private johndoe ~/Desktop/key_exported.pem
 Celesi privat u ruajt ne fajllin .pem
 
 ```
