@@ -42,12 +42,14 @@ const deleteKeys = name => {
   name = name.trim()
   if(fs.existsSync(__dirname + '/Keys/'+name+'.pem') || fs.existsSync(__dirname + '/Keys/' + name + '.pub.pem')){
     fs.unlink(__dirname + '/Keys/' + name + '.pem',(err)=>{
-      if(err) throw err;
+      if(!err) {
       console.log('Eshte larguar celesi privat \'keys/' + name + '.pem\'');
+	  }
     })
     fs.unlink(__dirname + '/Keys/' + name + '.pub.pem',(err)=>{
-      if(err) throw err;
-      console.log('Eshte larguar celesi publik \'keys/' + name + 'pub.pum');
+      if(!err) {
+      console.log('Eshte larguar celesi publik \'keys/' + name + '.pub.pum');
+	  }
     })
   }else{
     console.log('Gabim: Celesi \'' + name + '\' nuk ekziston.');
