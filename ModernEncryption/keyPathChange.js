@@ -4,114 +4,62 @@ const os = require('os');
 const crypto = require('crypto')
 
 const exportKey = (visibility,name,file) => {
-  visibility = visibility.trim()
-  name = name.trim()
-  file = file.trim()
-  if((visibility !== 'public' && visibility !== 'private') || !name.match(/^[a-zA-Z0-9_]*$/)){
-    console.log('There is an invalid argument');
-  }
-  if(typeof file == 'undefined'){
-    if(visibility === 'public'){
-      var text = fs.readFileSync(__dirname + '/Keys/' + name + '.pub.pem',(err)=>{
-        if(err) throw err;
-      })
-      console.log(text.toString());
-    }
-    else if(visibility === 'private'){
-      var text = fs.readFileSync(__dirname + '/Keys/' + name + '.pem',(err,text)=>{
-        if(err) throw err;
-      })
-      console.log(text.toString());
-    }
-  }
+  if(visibility) visibility = visibility.trim()
+  else if(name) name = name.trim()
+  else if(file) file = file.trim()
+  else abortProcess('Argumentet jovalide')
+  if((visibility !== 'public' && visibility !== 'private') || !name.match(/^[a-zA-Z0-9_]*$/))
+    abortProcess('There is an invalid argument')
+  if(typeof file == 'undefined') console.log(readKey(name,visibility))
   if(file){
-    if(file.includes(':/')) {
-      if(fs.existsSync(findDir(file))) {
-        if(visibility=='private'){
-          moveprocess(__dirname + '/Keys/' + name + '.pem', file,visibility)
-        }
-        else if(visibility=='public'){
-          moveprocess(__dirname + '/Keys/' + name + '.pub.pem', file,visibility)
-        }
-      }
-      else {
-        console.log("ENOENT: Directory does not exist!")
-      }
-    }else if(fs.existsSync(os.homedir() + '/' + file)){
-      console.log('Ekziston nje file tjeter me kete emer ne direktoriumin qe deshironi zhvendosjen e celesit');
-    }
-    else if(file.startsWith('~/')){
-      if(visibility=='public'){
-        moveprocess(__dirname + '/Keys/' + name + '.pub.pem',os.homedir() + '/' + file.substring(2),visibility)
-      }
-      else{
-        moveprocess(__dirname + '/Keys/' + name + '.pem',os.homedir() + '/' + file.substring(2),visibility)
-      }
-    }else{
-      if(visibility=='public'){
-        moveprocess(__dirname + '/Keys/' + name + '.pub.pem',os.homedir() + '/' + file,visibility)
-      }else{
-        moveprocess(__dirname + '/Keys/' + name + '.pem',os.homedir() + '/' + file,visibility)
-      }
-    }
+    if(fs.existsSync(os.homedir() + '/' + file)
+      abortProcess('Ekziston nje file tjeter me kete emer ne direktoriumin qe deshironi zhvendosjen e celesit')
+    if(file.startsWith('~/'))
+      moveprocess(__dirname + '/Keys/' + name + (visibility == 'public') ? '.pub.pem' : '.pem',os.homedir() + '/' + file.substring(2),visibility)
+    if(!fs.existsSync(findDir(file)))
+      abortProcess('ENOENT: Directory does not exist!')
+    if(file.includes(':/'))
+      moveprocess(__dirname + '/Keys/' + name + (visibility=='private') ? '.pem' : '.pub.pem', file,visibility)
+    else moveprocess(__dirname + '/Keys/' + name + (visibility=='public') ? '.pub.pem' : '.pem',os.homedir() + '/' + file,visibility)
   }
 }
 
 const importKey = (name, file) => {
-  name = name.trim()
-  file = file.trim()
-  if(file.includes(':/') || file.startsWith('~/')){
-    if(file.startsWith('~/')){
-      if(fs.existsSync(os.homedir() + '/' + file.substring(2))){
-        var text = fs.readFileSync(os.homedir() + '/' + file.substring(2),(err,text)=>{
-          if(err) throw err
-        })
-        if(text.toString().includes('PRIVATE')){
-          moveprocess(os.homedir() + '/' + file.substring(2),__dirname + '/Keys/' + name + '.pem','private');
-          setTimeout(()=>{
-            //
-          }, 1000);
-          let privateKey = fs.readFileSync(__dirname + '/Keys/' + name + '.pem');
-          var test = crypto.createPrivateKey({'key': privateKey,'passphrase': 'top secret','cipher': 'aes-256-cbc'})
-          var test2 = crypto.createPublicKey(test).export({'type':'spki','format': 'pem','cipher': 'aes-256-cbc','passphrase':'top secret'});
-          fs.writeFile(__dirname + '/Keys/' + name+ '.pub.pem',test2,(err)=>{
-            if(err) throw err;
-            console.log('Eshte krijuar celesi publik \'Keys/' + name + '.pub.pem\'')
-          })
-        }
-      }
-    }
-    if(fs.existsSync(findDir(file))){
-      if(fs.existsSync(file)){
-        var text = fs.readFileSync(file,(err,text)=>{
-          if(err) throw err
-        })
-        if(text.toString().includes('PRIVATE')){
-          moveprocess(file,__dirname + '/Keys/' + name + '.pem','private');
-          setTimeout(()=>{
-            //
-          }, 1000);
-          let privateKey = fs.readFileSync(__dirname + '/Keys/' + name + '.pem');
-          var test = crypto.createPrivateKey({'key': privateKey,'passphrase': 'top secret','cipher': 'aes-256-cbc'})
-          var test2 = crypto.createPublicKey(test).export({'type':'spki','format': 'pem','cipher': 'aes-256-cbc','passphrase':'top secret'});
-          fs.writeFile(__dirname + '/Keys/' + name+ '.pub.pem',test2,(err)=>{
-            if(err) throw err;
-            console.log('Eshte krijuar celesi publik \'Keys/' + name + '.pub.pem\'')
-          })
-        }
-        else if(text.toString().includes('PUBLIC')){
-          moveprocess(file,__dirname+ '/Keys/' + name + '.pub.pem','public')
-        }
-        else{
-          console.log('Invalid key format');
-        }
-      }else{
-        console.log('ENOENT: File does not exist!');
-      }
-    }else{
-      console.log('ENOENT: Directory does not exist!');
-    }
+  if(name) name = name.trim()
+  if(file) file = file.trim()
+  if(file.startsWith('~/') && fs.existsSync(os.homedir() + '/' + file.substring(2))) let text = readImportedKey(file)
+  if(text && text.toString().includes('PRIVATE')){
+    moveprocess(os.homedir() + '/' + file.substring(2),__dirname + '/Keys/' + name + '.pem','private')
+    let privateKey = fs.readFileSync(__dirname + '/Keys/' + name + '.pem')
+    let derivedPrivateKey = crypto.createPrivateKey({'key': privateKey,'passphrase': 'top secret','cipher': 'aes-256-cbc'})
+    var derivedPublicKey = crypto.createPublicKey(derivedPrivateKey).export({'type':'spki','format': 'pem','cipher': 'aes-256-cbc','passphrase':'top secret'})
+    fs.writeFile(__dirname + '/Keys/' + name+ '.pub.pem',derivedPublicKey,(err)=>{
+      if(err) throw err;
+      console.log('Eshte krijuar celesi publik \'Keys/' + name + '.pub.pem\'')
+    })
   }
+  if(!fs.existsSync(findDir(file))) abortProcess('ENOENT: Directory does not exist!')
+  if(fs.existsSync(file))
+    var text = fs.readFileSync(file,(err,text)=>{
+      if(err) throw err
+    })
+  if(text && text.toString().includes('PRIVATE')){
+    moveprocess(file,__dirname + '/Keys/' + name + '.pem','private')
+    let privateKey = fs.readFileSync(__dirname + '/Keys/' + name + '.pem')
+    var derivedPrivateKey = crypto.createPrivateKey({'key': privateKey,'passphrase': 'top secret','cipher': 'aes-256-cbc'})
+    var derivedPublicKey = crypto.createPublicKey(derivedPrivateKey).export({'type':'spki','format': 'pem','cipher': 'aes-256-cbc','passphrase':'top secret'})
+    fs.writeFile(__dirname + '/Keys/' + name+ '.pub.pem',test2,(err)=>{
+      if(err) throw err;
+      console.log('Eshte krijuar celesi publik \'Keys/' + name + '.pub.pem\'')
+    })
+  }
+  if(text && text.toString().includes('PUBLIC'))
+    moveprocess(file,__dirname+ '/Keys/' + name + '.pub.pem','public')
+
+
+// UNDER CONSTRUCTION
+
+
   else if(fs.existsSync(os.homedir() + '/' + file)){
     var text = fs.readFileSync(os.homedir() + '/' + file,(err,text)=>{
       if(err) throw err;
@@ -157,6 +105,25 @@ const findDir = (pathname) => {
   fileDir.pop()
   fileDir = fileDir.join('/')
   return fileDir
+}
+
+let abortProcess = (statement) => {
+  console.log(statement)
+  process.exit()
+}
+
+let readKey = (name,visibility) => {
+  var text = fs.readFileSync(__dirname + '/Keys/' + name + (visibility=='public') ? '.pub.pem' : '.pem',(err)=>{
+    if(err) abortProcess(`Celesi ${name} nuk ekziston`)
+  })
+  return text.toString()
+}
+
+let readImportedKey = (file) => {
+  var text = fs.readFileSync(os.homedir() + '/' + file.substring(2),(err,text)=>{
+    if(err) throw err
+  })
+  return text
 }
 
 module.exports = {exportKey,importKey};
