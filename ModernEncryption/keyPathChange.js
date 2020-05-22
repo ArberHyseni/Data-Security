@@ -12,15 +12,13 @@ const exportKey = (visibility,name,file) => {
     abortProcess('There is an invalid argument')
   if(typeof file == 'undefined') console.log(readKey(name,visibility))
   if(file){
-    if(fs.existsSync(os.homedir() + '/' + file)
+    if(fs.existsSync(os.homedir() + '/' + file))
       abortProcess('Ekziston nje file tjeter me kete emer ne direktoriumin qe deshironi zhvendosjen e celesit')
     if(file.startsWith('~/'))
-      moveprocess(__dirname + '/Keys/' + name + (visibility == 'public') ? '.pub.pem' : '.pem',os.homedir() + '/' + file.substring(2),visibility)
-    if(!fs.existsSync(findDir(file)))
-      abortProcess('ENOENT: Directory does not exist!')
+      (!fs.existsSync(os.homedir() + '/' + file.substring(2)) ? moveprocess(__dirname + '/Keys/' + name + ((visibility == 'public') ? '.pub.pem' : '.pem'),os.homedir() + '/' + file.substring(2),visibility) : abortProcess('File already exists on that path'))
     if(file.includes(':/'))
-      moveprocess(__dirname + '/Keys/' + name + (visibility=='private') ? '.pem' : '.pub.pem', file,visibility)
-    else moveprocess(__dirname + '/Keys/' + name + (visibility=='public') ? '.pub.pem' : '.pem',os.homedir() + '/' + file,visibility)
+      ((!fs.existsSync(file)) ? moveprocess(__dirname + '/Keys/' + name + ((visibility=='private') ? '.pem' : '.pub.pem'), file,visibility) : abortProcess('File already exists on that path'))
+    else moveprocess(__dirname + '/Keys/' + name + ((visibility=='public') ? '.pub.pem' : '.pem'),os.homedir() + '/' + file,visibility)
   }
 }
 
@@ -46,7 +44,7 @@ const importKey = (name, file) => {
   }
   if(file.startsWith('~/')){
     if(!fs.existsSync(os.homedir() + file.substr(2))) abortProcess('File path is not valid')
-    let text = readImportedKey(os.homedir() + file.substr(2)))
+    let text = readImportedKey(os.homedir() + file.substr(2))
     if(!text || !text.includes('PUBLIC') || !text.includes('PRIVATE')) abortProcess('Invalid file')
     if(text.includes('PUBLIC')) moveprocess(os.homedir() + file.substr(2),__dirname+'/Keys/' + name + '.pub.pem','public')
     if(text.includes('PRIVATE')){
@@ -81,6 +79,8 @@ const importKey = (name, file) => {
 }
 
 const moveprocess = async (oldpath,newpath,visibility) => {
+  if(!fs.existsSync(oldpath)) abortProcess('File on that path does not exists')
+  if(!fs.existsSync(findDir(newpath))) abortProcess('Destination path does not exists')
   const moveFile = (oldpath,newpath,visibility) =>{
     if(visibility=='public'){
       fs.rename(oldpath, newpath, (err)=>{
@@ -90,7 +90,7 @@ const moveprocess = async (oldpath,newpath,visibility) => {
     }else if(visibility=='private'){
       fs.rename(oldpath, newpath, (err)=>{
         if(err) throw err;
-        console.log('Celesi privat u ruajt ne fajllin '  + '.pem');
+        console.log(`Celesi private u ruajt ne fajllin ${oldpath.split('/').pop()}`);
       })
     }
   }
@@ -111,7 +111,10 @@ let abortProcess = (statement) => {
 }
 
 let readKey = (name,visibility) => {
-  var text = fs.readFileSync(__dirname + '/Keys/' + name + (visibility=='public') ? '.pub.pem' : '.pem',(err)=>{
+  if(!fs.existsSync(__dirname + '/Keys/' + name + ((visibility=='public') ? '.pub.pem' : '.pem'))){
+    abortProcess(`Celesi ${name} nuk ekziston`)
+  }
+  var text = fs.readFileSync(__dirname + '/Keys/' + name + ((visibility=='public') ? '.pub.pem' : '.pem'),(err)=>{
     if(err) abortProcess(`Celesi ${name} nuk ekziston`)
   })
   return text.toString()

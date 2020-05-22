@@ -3,6 +3,10 @@ const crypto = require('crypto')
 
 const generateKeys = name =>{
   if(name) name = name.trim()
+  if(!name){
+    console.log('Invalid argument')
+    process.exit()
+  }
   if(!name.match(/^[a-zA-Z0-9_]*$/)){
     console.log('Emri duhet te permbaje vetem shkronja, numra dhe _')
     process.exit()
@@ -36,6 +40,10 @@ const generateKeys = name =>{
 }
 
 const deleteKeys = name => {
+  if(!name){
+    console.log('Invalid argument')
+    process.exit()
+  }
   if(name) name = name.trim()
   if(!(fs.existsSync(__dirname + '/Keys/'+name+'.pem') || fs.existsSync(__dirname + '/Keys/' + name + '.pub.pem'))) console.log('Gabim: Celesi \'' + name + '\' nuk ekziston.')
   else{
@@ -56,7 +64,8 @@ const makeKey = (privateKey,publicKey,name) => {
 }
 
 const deleteFile = (name,visibility) => {
-  fs.unlink(__dirname + '/Keys/' + name + (visibility=='privat')? '.pem' : '.pub.pem',(err)=>{
+  fs.unlink(__dirname + '/Keys/' + name + ((visibility=='privat') ? '.pem' : '.pub.pem'),(err)=>{
+    if(err) throw err
     if(!err) {
     console.log(`Eshte larguar celesi ${visibility} keys/${name}`)
     }
