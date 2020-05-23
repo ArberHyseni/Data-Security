@@ -29,7 +29,7 @@ const importKey = (name, file) => {
   if(file.includes(':/')){
     if(!fs.existsSync(file)) abortProcess('File path is not valid')
     let text = readImportedKey(file)
-    if(!text || !text.includes('PUBLIC') || !text.includes('PRIVATE')) abortProcess('Invalid file')
+    if(typeof text == 'undefined' || (!text.includes('PUBLIC') && !text.includes('PRIVATE'))) abortProcess('Invalid file')
     if(text.includes('PUBLIC')) moveprocess(file,__dirname+'/Keys/' + name + '.pub.pem','public')
     if(text.includes('PRIVATE')){
       moveprocess(file,__dirname+'/Keys/'+name+'.pem','private')
@@ -45,6 +45,7 @@ const importKey = (name, file) => {
   if(file.startsWith('~/')){
     if(!fs.existsSync(os.homedir() + file.substr(2))) abortProcess('File path is not valid')
     let text = readImportedKey(os.homedir() + file.substr(2))
+    console.log(text);
     if(!text || !text.includes('PUBLIC') || !text.includes('PRIVATE')) abortProcess('Invalid file')
     if(text.includes('PUBLIC')) moveprocess(os.homedir() + file.substr(2),__dirname+'/Keys/' + name + '.pub.pem','public')
     if(text.includes('PRIVATE')){
@@ -94,7 +95,7 @@ const moveprocess = async (oldpath,newpath,visibility) => {
       })
     }
   }
-  const movevar = await moveFile(oldpath,newpath,visibility)
+  return await moveFile(oldpath,newpath,visibility)
 }
 
 
@@ -104,6 +105,13 @@ const findDir = (pathname) => {
   fileDir = fileDir.join('/')
   return fileDir
 }
+
+var log = console.log;
+console.log = function() {
+    log.apply(console, arguments);
+    // Print the stack trace
+    console.trace();
+};
 
 let abortProcess = (statement) => {
   console.log(statement)
@@ -121,10 +129,11 @@ let readKey = (name,visibility) => {
 }
 
 let readImportedKey = (file) => {
-  var text = fs.readFileSync(os.homedir() + '/' + file.substring(2),(err,text)=>{
-    if(err) throw err
+  if(!fs.existsSync(file)) abortProcess(`Celesi ${name} nuk ekziston`)
+  var text = fs.readFileSync(file/*os.homedir() + '/' + file.substring(2)*/,(err,text)=>{
+    if(err) console.log('nothing');
   })
-  return text
+  return text.toString()
 }
 
 module.exports = {exportKey,importKey};
