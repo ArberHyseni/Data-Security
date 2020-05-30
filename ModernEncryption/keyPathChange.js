@@ -33,42 +33,13 @@ const importKey = (name, file) => {
     if(text.includes('PUBLIC')) moveprocess(file,__dirname+'/Keys/' + name + '.pub.pem','public')
     if(text.includes('PRIVATE')){
       moveprocess(file,__dirname+'/Keys/'+name+'.pem','private')
+      setTimeout(()=>{
+        //
+      },1000)
       let privateKey = fs.readFileSync(__dirname + '/Keys/' + name + '.pem');
-      var test = crypto.createPrivateKey({'key': privateKey,'passphrase': 'top secret','cipher': 'aes-256-cbc'})
-      var test2 = crypto.createPublicKey(test).export({'type':'spki','format': 'pem','cipher': 'aes-256-cbc','passphrase':'top secret'});
-      fs.writeFile(__dirname + '/Keys/' + name+ '.pub.pem',test2,(err)=>{
-        if(err) throw err;
-        console.log('Eshte krijuar celesi publik \'Keys/' + name + '.pub.pem\'')
-      })
-    }
-  }
-  if(file.startsWith('~/')){
-    if(!fs.existsSync(os.homedir() + file.substr(2))) abortProcess('File path is not valid')
-    let text = readImportedKey(os.homedir() + file.substr(2))
-    console.log(text);
-    if(!text || !text.includes('PUBLIC') || !text.includes('PRIVATE')) abortProcess('Invalid file')
-    if(text.includes('PUBLIC')) moveprocess(os.homedir() + file.substr(2),__dirname+'/Keys/' + name + '.pub.pem','public')
-    if(text.includes('PRIVATE')){
-      moveprocess(os.homedir() + file.substr(2),__dirname+'/Keys/'+name+'.pem','private')
-      let privateKey = fs.readFileSync(__dirname + '/Keys/' + name + '.pem')
-      var test = crypto.createPrivateKey({'key': privateKey,'passphrase': 'top secret','cipher': 'aes-256-cbc'})
-      var test2 = crypto.createPublicKey(test).export({'type':'spki','format': 'pem','cipher': 'aes-256-cbc','passphrase':'top secret'});
-      fs.writeFile(__dirname + '/Keys/' + name+ '.pub.pem',test2,(err)=>{
-        if(err) throw err;
-        console.log('Eshte krijuar celesi publik \'Keys/' + name + '.pub.pem\'')
-      })
-    }
-  }
-  if(fs.existsSync(os.homedir()+'/' + file)){
-    let text = readImportedKey(os.homedir()+'/' + file)
-    if(!text || !text.includes('PUBLIC') || !text.includes('PRIVATE')) abortProcess('Invalid file')
-    if(text.includes('PUBLIC')) moveprocess(os.homedir()+'/' + file,__dirname+'/Keys/'+name+'.pub.pem','public')
-    if(text.includes('PRIVATE')){
-      moveprocess(os.homedir()+'/'+file,__dirname+'/Keys/'+name+'.pem','private')
-      let privateKey = fs.readFileSync(__dirname + '/Keys/' + name + '.pem')
-      var test = crypto.createPrivateKey({'key': privateKey,'passphrase': 'top secret','cipher': 'aes-256-cbc'})
-      var test2 = crypto.createPublicKey(test).export({'type':'spki','format': 'pem','cipher': 'aes-256-cbc','passphrase':'top secret'});
-      fs.writeFile(__dirname + '/Keys/' + name+ '.pub.pem',test2,(err)=>{
+      var derivedPrivateKey = crypto.createPrivateKey({'key': privateKey,'passphrase': 'top secret','cipher': 'aes-256-cbc'})
+      var derivedPublicKey = crypto.createPublicKey(derivedPrivateKey).export({'type':'spki','format': 'pem','cipher': 'aes-256-cbc','passphrase':'top secret'});
+      fs.writeFile(__dirname + '/Keys/' + name+ '.pub.pem',derivedPublicKey,(err)=>{
         if(err) throw err;
         console.log('Eshte krijuar celesi publik \'Keys/' + name + '.pub.pem\'')
       })
@@ -76,6 +47,24 @@ const importKey = (name, file) => {
   }
   if(file.startsWith('http' || 'https')){
     //placeholder for fetch
+  }
+  if(fs.existsSync(os.homedir()+'/' + file)){
+    let text = readImportedKey(os.homedir()+'/' + file)
+    if(!text || (!text.includes('PUBLIC') && !text.includes('PRIVATE'))) abortProcess('Invalid file')
+    if(text.includes('PUBLIC')) moveprocess(os.homedir()+'/' + file,__dirname+'/Keys/'+name+'.pub.pem','public')
+    if(text.includes('PRIVATE')){
+      moveprocess(os.homedir()+'/'+file,__dirname+'/Keys/'+name+'.pem','private')
+      setTimeout(()=>{
+        //
+      },1000)
+      let privateKey = fs.readFileSync(__dirname + '/Keys/' + name + '.pem')
+      var test = crypto.createPrivateKey({'key': privateKey,'passphrase': 'top secret','cipher': 'aes-256-cbc'})
+      var test2 = crypto.createPublicKey(test).export({'type':'spki','format': 'pem','cipher': 'aes-256-cbc','passphrase':'top secret'});
+      fs.writeFile(__dirname + '/Keys/' + name+ '.pub.pem',test2,(err)=>{
+        if(err) throw err;
+        console.log('Eshte krijuar celesi publik \'Keys/' + name + '.pub.pem\'')
+      })
+    }
   }
 }
 
@@ -95,7 +84,7 @@ const moveprocess = async (oldpath,newpath,visibility) => {
       })
     }
   }
-  return await moveFile(oldpath,newpath,visibility)
+  var data = await moveFile(oldpath,newpath,visibility)
 }
 
 

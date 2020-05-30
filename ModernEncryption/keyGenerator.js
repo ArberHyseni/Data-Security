@@ -1,7 +1,7 @@
 const fs = require('fs')
 const crypto = require('crypto')
 
-const generateKeys = name =>{
+const generateKeys = name => {
   if(name) name = name.trim()
   if(!name){
     console.log('Invalid argument')
