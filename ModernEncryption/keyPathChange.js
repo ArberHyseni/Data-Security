@@ -1,8 +1,9 @@
-const path = require('path');
-const fs = require('fs');
-const os = require('os');
+const path = require('path')
+const fs = require('fs')
+const os = require('os')
 const crypto = require('crypto')
-const {import_file} = require('./ModernEncryption/getAndSendRequest.js');
+const {import_file} = require('./getAndSendRequest')
+const {moveprocess,findDir,abortProcess} = require('../lib/utilities')
 
 const exportKey = (visibility,name,file) => {
   if(!visibility || !name) abortProcess('Argumentet jovalide')
@@ -69,44 +70,12 @@ const importKey = (name, file) => {
   }
 }
 
-const moveprocess = async (oldpath,newpath,visibility) => {
-  if(!fs.existsSync(oldpath)) abortProcess('File on that path does not exists')
-  if(!fs.existsSync(findDir(newpath))) abortProcess('Destination path does not exists')
-  const moveFile = (oldpath,newpath,visibility) =>{
-    if(visibility=='public'){
-      fs.rename(oldpath, newpath, (err)=>{
-        if(err) throw err;
-        console.log('Celesi publik u ruajt ne fajllin ' + '.pub.pem');
-      })
-    }else if(visibility=='private'){
-      fs.rename(oldpath, newpath, (err)=>{
-        if(err) throw err;
-        console.log(`Celesi private u ruajt ne fajllin ${oldpath.split('/').pop()}`);
-      })
-    }
-  }
-  var data = await moveFile(oldpath,newpath,visibility)
-}
-
-
-const findDir = (pathname) => {
-  var fileDir = pathname.split('/')
-  fileDir.pop()
-  fileDir = fileDir.join('/')
-  return fileDir
-}
-
 var log = console.log;
 console.log = function() {
     log.apply(console, arguments);
     // Print the stack trace
     console.trace();
 };
-
-let abortProcess = (statement) => {
-  console.log(statement)
-  process.exit()
-}
 
 let readKey = (name,visibility) => {
   if(!fs.existsSync(__dirname + '/Keys/' + name + ((visibility=='public') ? '.pub.pem' : '.pem'))){
