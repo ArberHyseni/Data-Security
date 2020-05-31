@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const os = require('os');
 const crypto = require('crypto')
+const {import_file} = require('./ModernEncryption/getAndSendRequest.js');
 
 const exportKey = (visibility,name,file) => {
   if(!visibility || !name) abortProcess('Argumentet jovalide')
@@ -46,7 +47,7 @@ const importKey = (name, file) => {
     }
   }
   if(file.startsWith('http' || 'https')){
-    //placeholder for fetch
+    import_file(name,file)
   }
   if(fs.existsSync(os.homedir()+'/' + file)){
     let text = readImportedKey(os.homedir()+'/' + file)
