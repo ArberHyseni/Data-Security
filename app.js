@@ -9,6 +9,7 @@ const {generateKeys,deleteKeys} = require('./ModernEncryption/keyGenerator');
 const {exportKey, importKey} = require('./ModernEncryption/keyPathChange');
 const {encryptMessage,decryptMessage} = require('./ModernEncryption/sendEncryptedMessage');
 const {showlistkeys} = require('./ModernEncryption/getAndSendRequest.js');
+const {Verify_This_Token,getTokenfrom} = require('./ModernEncryption/jwtfunction.js');
 
 cmd.setVersion(pkg.version)
 
@@ -93,6 +94,28 @@ else if(process.argv[2]=='read-message'){
   cmd.set('read-message <encrypted-message>').action((message)=>{
     decryptMessage(message)
   })
+}else if(process.argv[2]=='status'){
+	// {Verify_This_Token,getTokenfrom}
+	cmd.parse(process.argv)
+  cmd.set('status <token>').action((token)=>{
+	  
+    if(typeof token == 'undefined'){console.log('Token is missing, ds status <Token> '); process.exit();}
+	
+	//console.log("For Token:"+token);
+	Verify_This_Token(token);
+	
+	
+  })
+	
+}else if(process.argv[2]=='login'){
+	// {Verify_This_Token,getTokenfrom}
+	cmd.parse(process.argv)
+  cmd.set('login <name>').action((name)=>{ 
+  if(typeof name == 'undefined'){console.log('Name is missing, ds login <name> '); process.exit();}
+	var token = getTokenfrom(name);
+	console.log(token);
+  })
+	
 }else if(process.argv[2]=='list-keys'){
   cmd.parse(process.argv)
   cmd.set('list-keys').action((message)=>{
