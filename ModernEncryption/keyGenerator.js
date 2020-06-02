@@ -1,7 +1,10 @@
 const fs = require('fs')
 const crypto = require('crypto')
+//const readline = require("readline")
+const path = require('path')
+const validator = require('../lib/validator')
 
-const generateKeys = name => {
+const generateKeys = async (name) => {
   if(name) name = name.trim()
   if(!name){
     console.log('Invalid argument')
@@ -11,6 +14,7 @@ const generateKeys = name => {
     console.log('Emri duhet te permbaje vetem shkronja, numra dhe _')
     process.exit()
   }
+  var test = await validator.setPassword(name)
   try{
     if(fs.existsSync(__dirname + '/Keys/'+name+'.pem') || fs.existsSync(__dirname + '/Keys/' + name + '.pub.pem')){
       console.log('Gabim: Celesi ' + name + ' ekziston paraprakisht')
@@ -44,11 +48,12 @@ const deleteKeys = name => {
     console.log('Invalid argument')
     process.exit()
   }
-  if(name) name = name.trim()
+  name.trim()
   if(!(fs.existsSync(__dirname + '/Keys/'+name+'.pem') || fs.existsSync(__dirname + '/Keys/' + name + '.pub.pem'))) console.log('Gabim: Celesi \'' + name + '\' nuk ekziston.')
   else{
     if(fs.existsSync(__dirname + '/Keys/'+name+'.pem')) deleteFile(name,'privat')
     if(fs.existsSync(__dirname + '/Keys/' + name + '.pub.pem')) deleteFile(name,'publik')
+    deleteUserData(name)
   }
 }
 
@@ -69,6 +74,17 @@ const deleteFile = (name,visibility) => {
     if(!err) {
     console.log(`Eshte larguar celesi ${visibility} keys/${name}`)
     }
+  })
+}
+
+const deleteUserData = name => {
+  if(!fs.existsSync(path.join(__dirname,'../Core/Users/'+name+'.rtf'))){
+    console.log('Te dhenat e shfrytezuesit ne fjale nuk u gjenden. Ju lutemi mos fshini te dhena manualisht')
+    process.exit(0)
+  } 
+  fs.unlink(path.join(__dirname,'../Core/Users/'+name+'.rtf'),(err)=>{
+    if(err) throw err
+    console.log(`Eshte fshire shfrytezuesi ${name}`)
   })
 }
 

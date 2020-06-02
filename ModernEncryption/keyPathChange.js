@@ -70,12 +70,12 @@ const importKey = (name, file) => {
   }
 }
 
-var log = console.log;
+/*var log = console.log;
 console.log = function() {
     log.apply(console, arguments);
     // Print the stack trace
     console.trace();
-};
+};*/
 
 let readKey = (name,visibility) => {
   if(!fs.existsSync(__dirname + '/Keys/' + name + ((visibility=='public') ? '.pub.pem' : '.pem'))){
