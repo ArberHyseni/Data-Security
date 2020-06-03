@@ -1,7 +1,7 @@
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
-
-
+const path = require('path')
+const crypto = require('crypto');
 
 
 // get token for ds login <name>
@@ -81,4 +81,8 @@ jwt.verify(token, privateKEY,{expiresIn:  "20m"},function(err,decode){
     }
 });
 }
+
+
+
+
 module.exports = {Verify_This_Token,getTokenfrom};

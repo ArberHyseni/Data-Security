@@ -10,7 +10,8 @@ const {exportKey, importKey} = require('./ModernEncryption/keyPathChange');
 const {encryptMessage,decryptMessage} = require('./ModernEncryption/sendEncryptedMessage');
 const {showlistkeys} = require('./ModernEncryption/getAndSendRequest.js');
 const {Verify_This_Token,getTokenfrom} = require('./ModernEncryption/jwtfunction.js');
-
+const {setPassword,Verify_Passwords} = require('./lib/validator.js')
+// /lib/validator.js
 cmd.setVersion(pkg.version)
 
 if(process.argv[2]=='caesar' && (process.argv[3]=='encrypt' || process.argv[3]=='decrypt')){ //check if 5th argument exists to run the below code. References are on references.txt
@@ -98,9 +99,8 @@ else if(process.argv[2]=='read-message'){
 	// {Verify_This_Token,getTokenfrom}
 	cmd.parse(process.argv)
   cmd.set('status <token>').action((token)=>{
-	  
     if(typeof token == 'undefined'){console.log('Token is missing, ds status <Token> '); process.exit();}
-	
+    
 	//console.log("For Token:"+token);
 	Verify_This_Token(token);
 	
@@ -112,8 +112,20 @@ else if(process.argv[2]=='read-message'){
 	cmd.parse(process.argv)
   cmd.set('login <name>').action((name)=>{ 
   if(typeof name == 'undefined'){console.log('Name is missing, ds login <name> '); process.exit();}
-	var token = getTokenfrom(name);
-	console.log(token);
+
+ 
+    var testmode =  Verify_Passwords(name);
+    
+    var token = getTokenfrom(name);
+    console.log(token);
+    
+
+  })
+	
+}else if(process.argv[2]=='test'){
+	cmd.parse(process.argv)
+	cmd.set('test').action(()=>{
+     Verify_Passwords('testing','testing1');
   })
 	
 }else if(process.argv[2]=='list-keys'){
