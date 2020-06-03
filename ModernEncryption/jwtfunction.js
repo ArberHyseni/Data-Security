@@ -24,7 +24,8 @@ var token = jwt.sign(payload, privateKEY,{expiresIn:  "20m"});
 		
 		fs.readFile(path.join(__dirname,'../Core/Token/CoreToken.rtf'), {encoding: 'utf-8'}, function(err,data){
 			if (!err) {
-				  data = data +token+'|'+Filename;				  
+				  data = data +token+'|'+Filename+'\n';		
+				  		  
 				 fs.writeFile(path.join(__dirname,'../Core/Token/CoreToken.rtf'), data, function (err) {
 				  if (err) { console.log(err.message)};
 				});
@@ -46,7 +47,7 @@ var splitertext2 = splitertext[1].split('\n');
 
 var file = splitertext2[0];
 	}catch(err){
-		console.log(err.message);
+		abortProcess("Invalid token found!");
 	}
 	
 	
