@@ -2,22 +2,18 @@ const fs = require('fs');
 const jwt = require('jsonwebtoken');
 const path = require('path')
 const crypto = require('crypto');
+const {abortProcess} = require('../lib/utilities.js');
 
 
-// get token for ds login <name>
 function getTokenfrom(Filename){
-	// create folder if dosn't exit
-	fs.mkdir("./Core/Token", function(err) {
-	  if (err) {
-		  if (err.code != 'EEXIST') {
-			console.log(err)
-		  }
-	  }
-	})
-if (!fs.existsSync('./ModernEncryption/Keys/'+Filename+'.pem')) {
-   console.log('This key doesn\'t exist!');
-   process.exit();
-}
+	
+	if(!fs.existsSync(path.join(__dirname,'../Core/Token/CoreToken.rtf'))){
+		fs.writeFileSync(path.join(__dirname,'../Core/Token/CoreToken.rtf'), '', function (err) {
+			if (err) { console.log(err.message)};
+		  });
+	}
+
+if (!fs.existsSync('./ModernEncryption/Keys/'+Filename+'.pem')) abortProcess('This key doesn\'t exist!');
 
 var privateKEY  = (fs.readFileSync('./ModernEncryption/Keys/'+Filename+'.pem', 'utf8')).trim();
 var payload = {
@@ -25,10 +21,11 @@ var payload = {
 };
 var token = jwt.sign(payload, privateKEY,{expiresIn:  "20m"});
 		var data = '';
-		fs.readFile('./Core/Token/CoreToken.txt', {encoding: 'utf-8'}, function(err,data){
+		
+		fs.readFile(path.join(__dirname,'../Core/Token/CoreToken.rtf'), {encoding: 'utf-8'}, function(err,data){
 			if (!err) {
 				  data = data +token+'|'+Filename;				  
-				 fs.writeFile('./Core/Token/CoreToken.txt', data, function (err) {
+				 fs.writeFile(path.join(__dirname,'../Core/Token/CoreToken.rtf'), data, function (err) {
 				  if (err) { console.log(err.message)};
 				});
 			} else {
@@ -42,7 +39,7 @@ var token = jwt.sign(payload, privateKEY,{expiresIn:  "20m"});
 // get status of token ds status <token>
 function Verify_This_Token(token){
 	try{
-var contents = fs.readFileSync('./Core/Token/CoreToken.txt', 'utf8');
+var contents = fs.readFileSync(path.join(__dirname,'../Core/Token/CoreToken.rtf'), 'utf8');
 var text = contents.trim();
 var splitertext = text.split(token+'|');
 var splitertext2 = splitertext[1].split('\n');
