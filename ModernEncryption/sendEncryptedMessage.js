@@ -2,19 +2,30 @@ const crypto = require('crypto')
 const path = require('path')
 const fs = require('fs')
 const os = require('os')
+const jwt = require('jsonwebtoken');
 
-const encryptMessage = (name,message,file) => {
+const encryptMessage = (name,message,file,token) => {
+  if(file == '--sender') file = null;
+
   var encodedName = Buffer.from(name).toString('base64')
   var iv = crypto.randomBytes(8).toString('base64');
   var key = crypto.randomBytes(8);
+
+
+  var privateKEY = fs.readFileSync(__dirname + '/Keys/' + name + '.pem');
   var publicKey = fs.readFileSync(__dirname + '/Keys/' + name + '.pub.pem');
+ 
+
   var encrypted = crypto.publicEncrypt(publicKey, key);
   const cipher = crypto.createCipheriv('des-ecb', key, null);
   let result = cipher.update(message,'utf8','base64');
   result+= cipher.final('base64')
   result = result.toString('base64')
   var ciphertext = encodedName+'.'+iv+'.'+encrypted.toString('base64')+'.'+result;
-  if(typeof file == 'undefined'){
+  if(typeof file == 'undefined' || file == null){
+     token = process.argv[6];
+     
+
      console.log(ciphertext);
   }
   else{

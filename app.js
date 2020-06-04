@@ -86,8 +86,8 @@ else if(process.argv[2]=='import-key'){
   })
 }else if(process.argv[2]=='write-message'){
   cmd.parse(process.argv)
-  cmd.set('write-message <name> <message> [file]').action((name,message,file)=>{
-    encryptMessage(name,message,file)
+  cmd.set('write-message <name> <message> [file] --sender [token]').action((name,message,file,token)=>{
+    encryptMessage(name,message,file,token)
   })
 }
 else if(process.argv[2]=='read-message'){
