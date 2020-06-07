@@ -4,6 +4,7 @@ const path = require('path')
 const validator = require('../lib/validator')
 
 const generateKeys = async (name) => {
+  if(!fs.existsSync(path.join(__dirname,'../Core'))) fs.mkdirSync(path.join(__dirname,'../Core'))
   if(name) name = name.trim()
   if(!name){
     console.log('Invalid argument')
