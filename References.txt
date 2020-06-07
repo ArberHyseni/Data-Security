@@ -11,3 +11,7 @@ https://www.makeareadme.com/
 https://cheerio.js.org/
 
 https://nodejs.org/api/http.html
+
+https://www.npmjs.com/package/jsonwebtoken
+
+https://github.com/auth0/node-jsonwebtoken
