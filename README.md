@@ -25,6 +25,12 @@ npm link
 dhe me kete perfundon instalimi i programit.
 
 ## Perdorimi  
+## FAZA 3
+Per ta perdorur aplikacionin, thjeshte duhet te hapni terminalin ne cilindo lokacion dhe te shkruani komandat:
+
+1. Komanda ds create-user <name>
+
+
 ## FAZA 2  
 ## Modern Encryption
 
