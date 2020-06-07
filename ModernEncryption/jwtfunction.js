@@ -13,10 +13,7 @@ function getTokenfrom(filename){
 	}
 	if (!fs.existsSync(path.join(__dirname,'/Keys/'+filename+'.pem'))) abortProcess('This key doesn\'t exist!')
 	var privateKey  = fs.readFileSync(path.join(__dirname,'/Keys/'+filename+'.pem')).toString()
-	//payload {
-    // "sub": "1234567890",
-    // "name": "John Doe",
-    // "iat": 1516239022 }
+	//payload contains the claims
 	var payload = {
     	name : filename
 	};
