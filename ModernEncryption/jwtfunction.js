@@ -7,9 +7,7 @@ const {abortProcess} = require('../lib/utilities.js');
 function getTokenfrom(filename){
 	if(!fs.existsSync(path.join(__dirname,'../Core/Token/'))) fs.mkdirSync(path.join(__dirname,'../Core/Token/'))
 	if(!fs.existsSync(path.join(__dirname,'../Core/Token/CoreToken.rtf'))){
-		fs.writeFileSync(path.join(__dirname,'../Core/Token/CoreToken.rtf'), err => {
-			if(err) console.log(err.message)
-		  })
+		fs.writeFileSync(path.join(__dirname,'../Core/Token/CoreToken.rtf'), "")
 	}
 	if (!fs.existsSync(path.join(__dirname,'/Keys/'+filename+'.pem'))) abortProcess('This key doesn\'t exist!')
 	var privateKey  = fs.readFileSync(path.join(__dirname,'/Keys/'+filename+'.pem')).toString()
