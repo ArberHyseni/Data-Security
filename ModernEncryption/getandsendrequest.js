@@ -79,7 +79,9 @@ var total_keys = 0;
 	if(err || files == null){
 		console.log("No keys here");
 	}else{
+	
 		files.forEach(file => {
+		
 			
 			var takethisfile = file.match(/(.*?)\.(.*)/);
 			if(!file_output.includes("\n| "+takethisfile[1])){
@@ -88,8 +90,16 @@ var total_keys = 0;
 			}
 			if(takethisfile[2] === 'pem')
 				file_output += "[Private]";
-			else if (takethisfile[2] === 'pub.pem')
-				file_output += "[Public]"
+			else if (takethisfile[2] === 'pub.pem'){
+				let counterToken = 0;
+				if (fs.existsSync(path.join(__dirname,'../Core/Token/CoreToken.rtf'))) {
+					var data = fs.readFileSync(path.join(__dirname,'../Core/Token/CoreToken.rtf')).toString();
+					var spliter = data.split('|'+takethisfile[1]+'|');
+					file_output += "[Public]"+'['+(spliter.length-1)+' Tokens]';
+				}else{
+				file_output += "[Public]"+'['+counterToken+' Tokens]';
+				}
+			}
 		});
 		
 		console.log(file_output);
