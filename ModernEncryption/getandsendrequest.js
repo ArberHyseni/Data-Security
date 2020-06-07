@@ -5,7 +5,6 @@ const fs = require('fs');
 const path = require('path')
 
 const import_file = (namefilesaved,link)=>{
-	// code keys invers code  879
 	if(namefilesaved == ''){
 		console.log('File name is missing <name>!');
 		process.exit();
@@ -41,8 +40,6 @@ request(link,(error,response,html)=>{
 	}else{
 		extension = '.pem'; // rsa private 
 	}
-	//console.log(__dirname + '\\Keys\\'+namefilesaved+extension);
-	// code keys invers code  880
 	fs.mkdir("./ModernEncryption/Keys", function(err) {
 	  if (err) {
 		  if (err.code != 'EEXIST') {
@@ -61,8 +58,7 @@ request(link,(error,response,html)=>{
 	  console.log('Saved RSA Public: '+namefilesaved+extension_public);
 	});	
 	}
-	// code EEXIST  invers code 881
-	 // path.join(__dirname,"./ModernEncryption/Keys/"+namefilesaved+extension_public)
+
 	fs.writeFile(path.join(__dirname,"/Keys/"+namefilesaved+extension), crytext, function (err) {
 	  if (err) throw err;
 	  console.log('Saved RSA: '+namefilesaved+extension);
@@ -71,7 +67,7 @@ request(link,(error,response,html)=>{
 }
 
 const showlistkeys = ()=>{
-const checkforkeys = path.join(__dirname,"/Keys/") // path.join(__dirname,"./ModernEncryption/Keys/"+namefilesaved+extension_public)
+const checkforkeys = path.join(__dirname,"/Keys/") 
 fs.readdir(checkforkeys, (err, files) => {
 console.log("-----------------------------");
 var file_output = "";
@@ -111,9 +107,4 @@ console.log("\n-----------------------------");
 
 }
 module.exports = {import_file,showlistkeys};
-
-
-// ds import-key file1 https://pastebin.com/raw/s0gvcti0
-//import_file('file1','https://pastebin.com/raw/s0gvcti0'); // example if you want to test
-
 // in end of line is the end of the words 

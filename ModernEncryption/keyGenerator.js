@@ -90,8 +90,6 @@ const deleteUserData = name => {
 }
 
 const deleteUserTokens = name => {
-  //if(!fs.existsSync(path.join(__dirname,'../Core/Token/CoreToken.rtf'))) console.log('do nothing')
-  console.log('test1');
   try{
     fs.readFile(path.join(__dirname,'../Core/Token/CoreToken.rtf'),(err,data)=>{
       if(err) throw err

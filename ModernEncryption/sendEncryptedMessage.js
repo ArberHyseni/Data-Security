@@ -38,7 +38,6 @@ const encryptMessage = (name,message,file,token) => {
   var derivedPrivateKey = crypto.createPrivateKey({'key': privateKey,'passphrase': 'top secret','cipher': 'aes-256-cbc'})
   var desmessage = crypto.createCipheriv('des-ecb',key,null).update(message)
   var signedMessage = crypto.createSign('RSA-SHA256').update(desmessage).sign(derivedPrivateKey,'base64')//base64(signature(des(message)))
-  //var signedMessage = crypto.sign('des-ecb', Buffer.from(message, 'utf8'), derivedPrivateKey) //. base64(signature(des(<message>)))
   var ciphertext = encodedName+'.'+iv+'.'+encrypted.toString('base64')+'.'+result
 
   if(typeof file == 'undefined' || file == null){
@@ -74,6 +73,7 @@ const encryptMessage = (name,message,file,token) => {
 }
 
 const decryptMessage = (message) =>{
+  try{
   if(fs.existsSync(os.homedir()+ '/' + message) || fs.existsSync(message)){
     if(fs.existsSync(os.homedir()+ '/' + message)){
       var messageFile = fs.readFileSync(os.homedir()+ '/' + message).toString();
@@ -92,10 +92,12 @@ const decryptMessage = (message) =>{
       decodeMessage(seperateText)
     }
   }
+}catch(err){
+  abortProcess("Mesazhi i enkriptuar nuk duhet te jete i zbrazet!");
+}
 }
 
 const decodeMessage = (message) =>{
-  //nenshkrim(message[3]) == message[5][nenshkrimi]
   var keyName = new Buffer.from(message[0], 'base64').toString('ascii')
   var derivedIV = Buffer.from(message[1],'base64')
   if(fs.existsSync(__dirname + '/Keys/' + keyName + '.pem')){

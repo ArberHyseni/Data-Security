@@ -80,7 +80,7 @@ let readKey = (name,visibility) => {
 
 let readImportedKey = (file) => {
   if(!fs.existsSync(file)) abortProcess(`Celesi ${name} nuk ekziston`)
-  var text = fs.readFileSync(file/*os.homedir() + '/' + file.substring(2)*/,(err,text)=>{
+  var text = fs.readFileSync(file,(err,text)=>{
     if(err) console.log('nothing');
   })
   return text.toString()
