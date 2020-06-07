@@ -1,6 +1,5 @@
 const fs = require('fs')
 const crypto = require('crypto')
-//const readline = require("readline")
 const path = require('path')
 const validator = require('../lib/validator')
 
@@ -54,6 +53,7 @@ const deleteKeys = name => {
     if(fs.existsSync(__dirname + '/Keys/'+name+'.pem')) deleteFile(name,'privat')
     if(fs.existsSync(__dirname + '/Keys/' + name + '.pub.pem')) deleteFile(name,'publik')
     deleteUserData(name)
+    deleteUserTokens(name)
   }
 }
 
@@ -86,6 +86,27 @@ const deleteUserData = name => {
     if(err) throw err
     console.log(`Eshte fshire shfrytezuesi ${name}`)
   })
+}
+
+const deleteUserTokens = name => {
+  //if(!fs.existsSync(path.join(__dirname,'../Core/Token/CoreToken.rtf'))) console.log('do nothing')
+  console.log('test1');
+  try{
+    fs.readFile(path.join(__dirname,'../Core/Token/CoreToken.rtf'),(err,data)=>{
+      if(err) throw err
+      dataArray = data.toString().split('|')
+      dataArray.forEach((element,index)=>{
+        if(element==name) dataArray.splice(index-1,2)
+      })
+      dataArray = dataArray.join('|')
+      fs.writeFile(path.join(__dirname,'../Core/Token/CoreToken.rtf'), dataArray, function (err) {
+        if (err) { console.log(err.message)}
+      })
+    })
+  }catch(err){
+    console.log(err);
+  }
+  
 }
 
 module.exports = {generateKeys,deleteKeys}

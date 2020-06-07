@@ -4,55 +4,58 @@ const path = require('path')
 const crypto = require('crypto');
 const {abortProcess} = require('../lib/utilities.js');
 
-
 function getTokenfrom(filename){
+	if(!fs.existsSync(path.join(__dirname,'../Core/Token/'))) fs.mkdirSync(path.join(__dirname,'../Core/Token/'))
 	if(!fs.existsSync(path.join(__dirname,'../Core/Token/CoreToken.rtf'))){
 		fs.writeFileSync(path.join(__dirname,'../Core/Token/CoreToken.rtf'), err => {
 			if(err) console.log(err.message)
 		  })
 	}
-	if (!fs.existsSync('./ModernEncryption/Keys/'+filename+'.pem')) abortProcess('This key doesn\'t exist!')
-	var privateKey  = (fs.readFileSync('./ModernEncryption/Keys/'+filename+'.pem', 'utf8')).trim();
+	if (!fs.existsSync(path.join(__dirname,'/Keys/'+filename+'.pem'))) abortProcess('This key doesn\'t exist!')
+	var privateKey  = fs.readFileSync(path.join(__dirname,'/Keys/'+filename+'.pem')).toString()
 	var payload = {
     	name : filename
 	};
 	var token = jwt.sign(payload, privateKey,{expiresIn:  "20m"})
 	fs.readFile(path.join(__dirname,'../Core/Token/CoreToken.rtf'), {encoding: 'utf-8'}, (err,data)=>{
 		if (!err) {
-			data = data +token+'|'+filename+'\n';		 		  
+			data = data +token+'|'+filename+'|';		 		  
 			fs.writeFile(path.join(__dirname,'../Core/Token/CoreToken.rtf'), data, function (err) {
-				if (err) { console.log(err.message)};
+				if (err) { console.log(err.message)}
 			});
 		}else{
-			console.log(err);
+			abortProcess(err.message)
 		}
 	})
  	return token
 }
 // get status of token ds status <token>
-const Verify_This_Token = (token) => {
+const Verify_This_Token = (token,returns) => {
 	try{
 		var contents = fs.readFileSync(path.join(__dirname,'../Core/Token/CoreToken.rtf'), 'utf8');
 		var text = contents.trim();
 		var splitertext = text.split(token+'|');
-		var splitertext2 = splitertext[1].split('\n');
+		var splitertext2 = splitertext[1].split('|');
 		var file = splitertext2[0];
 	}catch(err){
-		abortProcess("Invalid token found!");
+		abortProcess("Invalid token found!")
 	}
     var basename = file.split('.')
     try{
-        var privateKey  = (fs.readFileSync('./ModernEncryption/Keys/'+basename[0]+'.pem', 'utf8')).trim()
+        var privateKey  = (fs.readFileSync(path.join(__dirname,'/Keys/'+basename[0]+'.pem')))
     }catch(err){
-        console.log(err.messge)
+        throw err;
         process.exit()
     }   
-	jwt.verify(token, privateKey,{expiresIn:  "20m"},function(err,decode){
+	var verify = jwt.verify(token, privateKey,{expiresIn:  "20m"},function(err,decode){
     	if(err){
+			if(typeof returns == 'number') return false
 			console.log("-----------------------------");
         	console.log("Valid: No \nReason: "+err.message);
 			console.log("-----------------------------");
+
     	}else{
+			if(typeof returns == 'number') return true;
 			const toDateTime = (secs) => {
 				var t = new Date(1970, 0, 1); // Epoch
 				t.setSeconds(secs);
@@ -65,6 +68,7 @@ const Verify_This_Token = (token) => {
 			console.log("-----------------------------");
     	}
 	})
+	if(typeof returns == 'number') return verify
 }
 
 module.exports = {Verify_This_Token,getTokenfrom};

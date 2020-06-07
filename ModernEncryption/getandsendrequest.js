@@ -2,6 +2,7 @@ const request = require('request');
 const cheerio = require('cheerio');
 const crypto = require('crypto');
 const fs = require('fs');
+const path = require('path')
 
 const import_file = (namefilesaved,link)=>{
 	// code keys invers code  879
@@ -55,13 +56,14 @@ request(link,(error,response,html)=>{
     var test = crypto.createPrivateKey({'key': privateKey,'passphrase': 'top secret','cipher': 'aes-256-cbc'})
 	var test2 = crypto.createPublicKey(test).export({'type':'spki','format': 'pem','cipher': 'aes-256-cbc','passphrase':'top secret'});
 	
-	fs.writeFile("./ModernEncryption/Keys/"+namefilesaved+extension_public, test2, function (err) {
+	fs.writeFile(path.join(__dirname,"/Keys/"+namefilesaved+extension_public), test2, function (err) {
 	  if (err) throw err;
 	  console.log('Saved RSA Public: '+namefilesaved+extension_public);
 	});	
 	}
 	// code EEXIST  invers code 881
-	fs.writeFile("./ModernEncryption/Keys/"+namefilesaved+extension, crytext, function (err) {
+	 // path.join(__dirname,"./ModernEncryption/Keys/"+namefilesaved+extension_public)
+	fs.writeFile(path.join(__dirname,"/Keys/"+namefilesaved+extension), crytext, function (err) {
 	  if (err) throw err;
 	  console.log('Saved RSA: '+namefilesaved+extension);
 	});
@@ -69,7 +71,7 @@ request(link,(error,response,html)=>{
 }
 
 const showlistkeys = ()=>{
-const checkforkeys = './ModernEncryption/Keys/';
+const checkforkeys = path.join(__dirname,"/Keys/") // path.join(__dirname,"./ModernEncryption/Keys/"+namefilesaved+extension_public)
 fs.readdir(checkforkeys, (err, files) => {
 console.log("-----------------------------");
 var file_output = "";
