@@ -13,7 +13,7 @@ const encryptMessage = (name,message,file,token) => {
   var encodedName = Buffer.from(name).toString('base64') //base64(utf8(<name>))
   var iv = crypto.randomBytes(8).toString('base64') // base64(<iv>)
   var key = crypto.randomBytes(8) //key
-  
+  if (!fs.existsSync(__dirname + '/Keys/' + name + '.pub.pem')) abortProcess('Celesi publik nuk ekziston.')
   var publicKey = fs.readFileSync(__dirname + '/Keys/' + name + '.pub.pem') //publicKey
   var encrypted = crypto.publicEncrypt(publicKey, key) //rsa(<key>)
   const cipher = crypto.createCipheriv('des-ecb', key, null) 
@@ -106,6 +106,7 @@ const decodeMessage = (message) =>{
     let decrypted = decipher.update(message[3], 'base64', 'utf8')
     decrypted += decipher.final('utf8')
     var sender = new Buffer.from(message[4],'base64').toString('ascii')
+    if (!fs.existsSync(__dirname + '/Keys/' + sender + '.pub.pem')) abortProcess('Celesi publik nuk ekziston.')
     var publicKey = fs.readFileSync(__dirname+'/Keys/'+sender+'.pub.pem')
     var desmessage = crypto.createCipheriv('des-ecb',derivedKey,null).update(decrypted.toString('utf8')) 
     let verifier = crypto.createVerify('RSA-SHA256').update(desmessage).verify(publicKey,message[5],'base64') // sign(des)
