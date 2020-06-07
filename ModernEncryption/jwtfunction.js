@@ -13,9 +13,14 @@ function getTokenfrom(filename){
 	}
 	if (!fs.existsSync(path.join(__dirname,'/Keys/'+filename+'.pem'))) abortProcess('This key doesn\'t exist!')
 	var privateKey  = fs.readFileSync(path.join(__dirname,'/Keys/'+filename+'.pem')).toString()
+	//payload {
+    // "sub": "1234567890",
+    // "name": "John Doe",
+    // "iat": 1516239022 }
 	var payload = {
     	name : filename
 	};
+	//create tocken
 	var token = jwt.sign(payload, privateKey,{expiresIn:  "20m"})
 	fs.readFile(path.join(__dirname,'../Core/Token/CoreToken.rtf'), {encoding: 'utf-8'}, (err,data)=>{
 		if (!err) {
