@@ -21,7 +21,7 @@ const validatePassword = async (load = '') => {
     })
     .then(cpassword=>{
         if(password !== cpassword) abortProcess('Gabim: Fjalekalimet nuk perputhen')
-        if(!password.match(/[0-9]/) && !password.match(/[0-9]/) && !cpassword.match(/[^0-9a-zA-Z]/) && !cpassword.match(/[^0-9a-zA-Z]/)) abortProcess('Gabim: Fjalekalimi duhet te permbaje se paku nje numer ose simbol')
+        if(!password.match(/[0-9]/) && !password.match(/[^0-9a-zA-Z]/)) abortProcess('Gabim: Fjalekalimi duhet te permbaje se paku nje numer ose simbol')
         return cpassword
     })
     .catch(error=>{
